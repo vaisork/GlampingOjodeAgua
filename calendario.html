@@ -122,6 +122,32 @@
   .cell.occupied{background:var(--brown);color:var(--cream);}
   .dome{width:20px;height:14px;margin-top:2px;}
   .dome svg{width:100%;height:100%;display:block;}
+  .selection-help{
+    font-family:Arial,sans-serif;
+    font-size:13px;
+    color:#5b5540;
+    margin:-2px 0 12px;
+    text-align:center;
+  }
+  .selection-summary{
+    font-family:Arial,sans-serif;
+    font-size:13px;
+    background:#E6DFC9;
+    border-radius:8px;
+    padding:10px 12px;
+    margin:-4px 0 14px;
+    text-align:center;
+    min-height:38px;
+  }
+  .cell.selectable{cursor:pointer;}
+  .cell.selected-start,
+  .cell.selected-end{
+    outline:3px solid var(--ink);
+    outline-offset:-3px;
+  }
+  .cell.in-range{
+    box-shadow:inset 0 0 0 3px rgba(32,51,31,.28);
+  }
   .legend{
     display:flex;flex-wrap:wrap;gap:14px;
     font-family:Arial,sans-serif;font-size:12px;
@@ -166,6 +192,8 @@
     <div class="dow">M</div><div class="dow">J</div><div class="dow">V</div><div class="dow">S</div>
   </div>
   <div class="grid" id="grid"></div>
+  <div class="selection-help">Toca una fecha disponible para la entrada y después elige la salida.</div>
+  <div class="selection-summary" id="selectionSummary">Selecciona tus fechas de estancia.</div>
 
   <div class="legend">
     <span><span class="swatch" style="background:var(--brown)"></span>Ocupado</span>
@@ -178,7 +206,7 @@
 
 <div class="card" style="margin-top:16px;">
   <div class="actions">
-<button id="btnWhatsapp">Compartir por WhatsApp</button>
+<button id="btnWhatsapp">Reservar por WhatsApp</button>
     <button id="btnDescargar">Descargar imagen para Instagram/Facebook</button>
   </div>
 </div>
@@ -199,12 +227,110 @@ viewMonth = today.getMonth();
 
 let ocupadosGlobal = new Set();
 let datosCargados = false;
+let fechaEntrada = null;
+let fechaSalida = null;
 
 function fmt(d){
   const y = d.getFullYear();
   const m = String(d.getMonth()+1).padStart(2,'0');
   const day = String(d.getDate()).padStart(2,'0');
   return `${y}-${m}-${day}`;
+}
+
+
+function parseLocalDate(dateStr){
+  const [y,m,d] = dateStr.split('-').map(Number);
+  return new Date(y, m-1, d, 12, 0, 0);
+}
+
+function fechaBonita(dateStr){
+  if(!dateStr) return '';
+  return parseLocalDate(dateStr).toLocaleDateString('es-MX', {
+    weekday:'short',
+    day:'numeric',
+    month:'short',
+    year:'numeric'
+  });
+}
+
+function actualizarResumenSeleccion(){
+  const el = document.getElementById('selectionSummary');
+  if(!el) return;
+
+  if(!fechaEntrada){
+    el.textContent = 'Selecciona tus fechas de estancia.';
+    return;
+  }
+
+  if(!fechaSalida){
+    el.textContent = 'Entrada: ' + fechaBonita(fechaEntrada) + ' · ahora elige la salida.';
+    return;
+  }
+
+  const noches = Math.round(
+    (parseLocalDate(fechaSalida) - parseLocalDate(fechaEntrada)) / 86400000
+  );
+
+  el.textContent =
+    'Entrada: ' + fechaBonita(fechaEntrada) +
+    ' · Salida: ' + fechaBonita(fechaSalida) +
+    ' · ' + noches + (noches === 1 ? ' noche' : ' noches');
+}
+
+function hayOcupadoEntre(entradaStr, salidaStr){
+  let d = parseLocalDate(entradaStr);
+  const salida = parseLocalDate(salidaStr);
+
+  // La noche de entrada y las siguientes deben estar libres.
+  // El día de salida NO cuenta como noche, por eso puede coincidir
+  // con el check-in de otra reserva.
+  while(d < salida){
+    if(ocupadosGlobal.has(fmt(d))) return true;
+    d.setDate(d.getDate()+1);
+  }
+  return false;
+}
+
+function seleccionarFecha(dateStr, isOcupado, isPast){
+  if(!datosCargados || isPast) return;
+
+  if(!fechaEntrada || fechaSalida){
+    if(isOcupado){
+      alert('Esa fecha está ocupada. Elige una fecha disponible para tu entrada.');
+      return;
+    }
+
+    fechaEntrada = dateStr;
+    fechaSalida = null;
+    actualizarResumenSeleccion();
+    dibujarGrid(viewYear, viewMonth, ocupadosGlobal);
+    return;
+  }
+
+  const entrada = parseLocalDate(fechaEntrada);
+  const candidata = parseLocalDate(dateStr);
+
+  if(candidata <= entrada){
+    if(isOcupado){
+      alert('Esa fecha está ocupada. Elige una fecha disponible para tu entrada.');
+      return;
+    }
+
+    fechaEntrada = dateStr;
+    fechaSalida = null;
+    actualizarResumenSeleccion();
+    dibujarGrid(viewYear, viewMonth, ocupadosGlobal);
+    return;
+  }
+
+  if(hayOcupadoEntre(fechaEntrada, dateStr)){
+    alert('Hay una noche ocupada dentro de ese rango. Elige una salida anterior o comienza después de la fecha ocupada.');
+    return;
+  }
+
+  fechaSalida = dateStr;
+  actualizarResumenSeleccion();
+  dibujarGrid(viewYear, viewMonth, ocupadosGlobal);
 }
 
 function cargarDisponibilidad(){
@@ -281,16 +407,42 @@ function dibujarGrid(year, month, ocupados){
 
     const c = document.createElement('div');
     let cls = 'cell ';
+
     if(isOcupado){ cls += 'occupied'; }
     else if(isPast){ cls += 'past'; }
     else { cls += 'green'; }
+
+    if(datosCargados && !isPast){
+      // Un día ocupado puede elegirse únicamente como salida,
+      // nunca como entrada.
+      if(!isOcupado || (fechaEntrada && !fechaSalida)){
+        cls += ' selectable';
+      }
+    }
+
+    if(dateStr === fechaEntrada) cls += ' selected-start';
+    if(dateStr === fechaSalida) cls += ' selected-end';
+
+    if(fechaEntrada && fechaSalida){
+      const d = parseLocalDate(dateStr);
+      if(d > parseLocalDate(fechaEntrada) && d < parseLocalDate(fechaSalida)){
+        cls += ' in-range';
+      }
+    }
 
     c.className = cls;
     c.innerHTML = day + (isOcupado
       ? '<div class="dome"><svg viewBox="0 0 60 34" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#F3EEE1" stroke-width="2"><line x1="2" y1="32" x2="58" y2="32"/><path d="M2 32 A28 28 0 0 1 58 32"/><line x1="30" y1="32" x2="30" y2="5"/><line x1="30" y1="32" x2="8" y2="14"/><line x1="30" y1="32" x2="52" y2="14"/><line x1="30" y1="32" x2="14" y2="25"/><line x1="30" y1="32" x2="46" y2="25"/><path d="M8 25 A22 22 0 0 1 52 25"/></svg></div>'
       : '');
+
+    c.addEventListener('click', ()=>{
+      seleccionarFecha(dateStr, isOcupado, isPast);
+    });
+
     grid.appendChild(c);
   }
+
+  actualizarResumenSeleccion();
 }
 
 document.getElementById('prevBtn').addEventListener('click', ()=>{
@@ -306,8 +458,24 @@ document.getElementById('nextBtn').addEventListener('click', ()=>{
 });
 
 document.getElementById('btnWhatsapp').addEventListener('click', ()=>{
-  const texto = encodeURIComponent('Mira la disponibilidad de Glamping Ojo de Agua: ' + window.location.href);
-  window.open('https://wa.me/?text=' + texto, '_blank');
+  if(!fechaEntrada || !fechaSalida){
+    alert('Primero selecciona tu fecha de entrada y tu fecha de salida en el calendario.');
+    return;
+  }
+
+  const noches = Math.round(
+    (parseLocalDate(fechaSalida) - parseLocalDate(fechaEntrada)) / 86400000
+  );
+
+  const mensaje =
+    'Hola, vi la disponibilidad de Glamping Ojo de Agua y quiero solicitar una reserva.\n\n' +
+    'Entrada: ' + fechaBonita(fechaEntrada) + '\n' +
+    'Salida: ' + fechaBonita(fechaSalida) + '\n' +
+    'Estancia: ' + noches + (noches === 1 ? ' noche' : ' noches') + '\n\n' +
+    '¿Me pueden confirmar disponibilidad y precio?';
+
+  const texto = encodeURIComponent(mensaje);
+  window.open('https://wa.me/527223805677?text=' + texto, '_blank');
 });
 
 document.getElementById('btnDescargar').addEventListener('click', ()=>{

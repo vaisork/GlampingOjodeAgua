@@ -3,10 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex,nofollow,noarchive">
 <title>Disponibilidad — Glamping Ojo de Agua</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
   :root{
     --cream:#F3EEE1;
@@ -180,21 +178,18 @@
 
 <div class="card" style="margin-top:16px;">
   <div class="actions">
-    <button id="btnGoogle" style="display:none;">Conectar Google Calendar</button>
-    <button id="btnWhatsapp">Compartir por WhatsApp</button>
+<button id="btnWhatsapp">Compartir por WhatsApp</button>
     <button id="btnDescargar">Descargar imagen para Instagram/Facebook</button>
   </div>
 </div>
 
 <script>
 /* ============================================================
-   GOOGLE CALENDAR — GITHUB PAGES
-   OAuth 2.0 en navegador, solo lectura. El calendario permanece privado.
+   DISPONIBILIDAD — GOOGLE APPS SCRIPT
+   La página NO pide iniciar sesión.
+   Apps Script devuelve únicamente fechas ocupadas.
    ============================================================ */
-const CALENDAR_ID = "gllnddlh1l77v85uc0cl91tbhonahu50@import.calendar.google.com";
-const CLIENT_ID = "695083785997-vgn38tlpdarpdvfl43bjlspjlgf2449k.apps.googleusercontent.com";
-const SCOPE = "https://www.googleapis.com/auth/calendar.readonly";
-const TIME_ZONE = "America/Mexico_City";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbySTv1jykoNeWpgVf_HfErX78UlAcK-BGK7KCkidb6xWH9VO0y8PRMXjpU5mF3cUYu9/exec";
 
 const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
 let viewYear, viewMonth;
@@ -202,9 +197,8 @@ const today = new Date();
 viewYear = today.getFullYear();
 viewMonth = today.getMonth();
 
-let tokenClient = null;
-let accessToken = null;
-let tokenExpiry = 0;
+let ocupadosGlobal = new Set();
+let datosCargados = false;
 
 function fmt(d){
   const y = d.getFullYear();
@@ -213,161 +207,63 @@ function fmt(d){
   return `${y}-${m}-${day}`;
 }
 
-function setGoogleButton(show){
-  document.getElementById('btnGoogle').style.display = show ? 'block' : 'none';
-}
-
-function limpiarToken(){
-  accessToken = null;
-  tokenExpiry = 0;
-  localStorage.removeItem('glamping_google_token');
-  localStorage.removeItem('glamping_google_token_expiry');
-}
-
-function guardarToken(token, expiresIn){
-  accessToken = token;
-  tokenExpiry = Date.now() + (Number(expiresIn || 3600) * 1000) - 60000;
-  localStorage.setItem('glamping_google_token', accessToken);
-  localStorage.setItem('glamping_google_token_expiry', String(tokenExpiry));
-}
-
-function restaurarToken(){
-  const savedToken = localStorage.getItem('glamping_google_token');
-  const savedExpiry = Number(localStorage.getItem('glamping_google_token_expiry') || 0);
-  if(savedToken && savedExpiry > Date.now()){
-    accessToken = savedToken;
-    tokenExpiry = savedExpiry;
-    return true;
-  }
-  limpiarToken();
-  return false;
-}
-
-function mostrarSinAcceso(){
-  document.getElementById('titulo').textContent = meses[viewMonth] + ' ' + viewYear;
-  document.getElementById('status').textContent = 'Conecta Google Calendar para consultar la disponibilidad.';
-  const grid = document.getElementById('grid');
-  grid.innerHTML = '<div style="grid-column:1/-1;padding:26px 12px;text-align:center;border:1px dashed var(--line);border-radius:12px;background:#fff8;">Pulsa <b>Conectar Google Calendar</b> una vez para autorizar acceso de solo lectura.</div>';
-  setGoogleButton(true);
-}
-
-function inicializarOAuth(){
-  if(!window.google || !google.accounts || !google.accounts.oauth2){
-    document.getElementById('status').textContent = 'Cargando acceso de Google…';
-    setTimeout(inicializarOAuth, 300);
-    return;
-  }
-
-  tokenClient = google.accounts.oauth2.initTokenClient({
-    client_id: CLIENT_ID,
-    scope: SCOPE,
-    callback: (response) => {
-      if(response.error){
-        document.getElementById('status').textContent = '⚠️ No se pudo autorizar Google Calendar: ' + response.error;
-        setGoogleButton(true);
-        return;
-      }
-      guardarToken(response.access_token, response.expires_in);
-      setGoogleButton(false);
-      cargarMes(viewYear, viewMonth);
-    }
-  });
-
-  if(restaurarToken()){
-    setGoogleButton(false);
-    cargarMes(viewYear, viewMonth);
-  }else{
-    mostrarSinAcceso();
-  }
-}
-
-function solicitarAcceso(){
-  if(!tokenClient){
-    document.getElementById('status').textContent = 'Espera un momento: Google todavía está cargando…';
-    return;
-  }
-  tokenClient.requestAccessToken({prompt: 'consent'});
-}
-
-async function cargarMes(year, month){
+function cargarDisponibilidad(){
   const statusEl = document.getElementById('status');
-  const tituloEl = document.getElementById('titulo');
-  tituloEl.textContent = meses[month] + ' ' + year;
-
-  if(!accessToken || tokenExpiry <= Date.now()){
-    limpiarToken();
-    mostrarSinAcceso();
-    return;
-  }
-
   statusEl.textContent = 'Consultando disponibilidad…';
 
-  // Límites del mes en horario local. Google Calendar devuelve también
-  // eventos que cruzan el inicio/fin del periodo.
-  const timeMin = new Date(year, month, 1, 0, 0, 0).toISOString();
-  const timeMax = new Date(year, month+1, 1, 0, 0, 0).toISOString();
+  // JSONP evita problemas CORS entre GitHub Pages y Google Apps Script.
+  const callbackName = 'glampingDisponibilidad_' + Date.now();
 
-  const params = new URLSearchParams({
-    timeMin,
-    timeMax,
-    singleEvents: 'true',
-    orderBy: 'startTime',
-    timeZone: TIME_ZONE,
-    maxResults: '2500'
-  });
-  const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CALENDAR_ID)}/events?${params.toString()}`;
+  const timeout = setTimeout(() => {
+    cleanup();
+    statusEl.textContent = '⚠️ No se pudo actualizar la disponibilidad. Intenta recargar la página.';
+    dibujarGrid(viewYear, viewMonth, ocupadosGlobal);
+  }, 15000);
 
-  const ocupados = new Set();
-  try{
-    const res = await fetch(url, {
-      headers: { Authorization: `Bearer ${accessToken}` }
-    });
-
-    if(res.status === 401){
-      limpiarToken();
-      mostrarSinAcceso();
-      statusEl.textContent = 'Tu autorización venció. Pulsa Conectar Google Calendar para renovarla.';
-      return;
-    }
-    if(!res.ok){
-      let detail = '';
-      try{
-        const body = await res.json();
-        detail = body?.error?.message ? ' ' + body.error.message : '';
-      }catch(_){ }
-      throw new Error(`Google Calendar respondió ${res.status}.${detail}`);
-    }
-
-    const data = await res.json();
-    (data.items || []).forEach(ev=>{
-      // Airbnb suele crear eventos de día completo. Si fueran con hora,
-      // usamos la fecha que Google entrega en la zona del calendario.
-      const startStr = ev.start?.date || (ev.start?.dateTime || '').slice(0,10);
-      const endStr = ev.end?.date || (ev.end?.dateTime || '').slice(0,10);
-      if(!startStr || !endStr) return;
-
-      let cur = new Date(startStr + 'T12:00:00');
-      const end = new Date(endStr + 'T12:00:00');
-
-      // IMPORTANTE: end es checkout. Ese día queda DISPONIBLE.
-      while(cur < end){
-        ocupados.add(fmt(cur));
-        cur.setDate(cur.getDate()+1);
-      }
-    });
-
-    statusEl.textContent = 'Actualizado ahora · ' + new Date().toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'});
-    setGoogleButton(false);
-  }catch(err){
-    statusEl.textContent = '⚠️ ' + err.message;
+  function cleanup(){
+    clearTimeout(timeout);
+    try { delete window[callbackName]; } catch(_) { window[callbackName] = undefined; }
+    const old = document.getElementById('jsonp-calendar');
+    if(old) old.remove();
   }
 
-  dibujarGrid(year, month, ocupados);
+  window[callbackName] = function(data){
+    cleanup();
+
+    if(!data || data.ok !== true || !Array.isArray(data.ocupados)){
+      statusEl.textContent = '⚠️ No se pudo leer la disponibilidad.';
+      dibujarGrid(viewYear, viewMonth, ocupadosGlobal);
+      return;
+    }
+
+    ocupadosGlobal = new Set(data.ocupados);
+    datosCargados = true;
+
+    const hora = new Date().toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'});
+    statusEl.textContent = 'Disponibilidad actualizada · ' + hora;
+    dibujarGrid(viewYear, viewMonth, ocupadosGlobal);
+  };
+
+  const script = document.createElement('script');
+  script.id = 'jsonp-calendar';
+  script.src = APPS_SCRIPT_URL
+    + '?callback=' + encodeURIComponent(callbackName)
+    + '&_=' + Date.now();
+  script.onerror = function(){
+    cleanup();
+    statusEl.textContent = '⚠️ Error al consultar la disponibilidad.';
+    dibujarGrid(viewYear, viewMonth, ocupadosGlobal);
+  };
+  document.body.appendChild(script);
 }
 
 function dibujarGrid(year, month, ocupados){
+  const tituloEl = document.getElementById('titulo');
+  tituloEl.textContent = meses[month] + ' ' + year;
+
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
+
   const daysInMonth = new Date(year, month+1, 0).getDate();
   const firstDay = new Date(year, month, 1).getDay(); // 0=Dom
 
@@ -388,26 +284,25 @@ function dibujarGrid(year, month, ocupados){
     if(isOcupado){ cls += 'occupied'; }
     else if(isPast){ cls += 'past'; }
     else { cls += 'green'; }
+
     c.className = cls;
-    c.innerHTML = day + (isOcupado ? '<div class="dome"><svg viewBox="0 0 60 34" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#F3EEE1" stroke-width="2"><line x1="2" y1="32" x2="58" y2="32"/><path d="M2 32 A28 28 0 0 1 58 32"/><line x1="30" y1="32" x2="30" y2="5"/><line x1="30" y1="32" x2="8" y2="14"/><line x1="30" y1="32" x2="52" y2="14"/><line x1="30" y1="32" x2="14" y2="25"/><line x1="30" y1="32" x2="46" y2="25"/><path d="M8 25 A22 22 0 0 1 52 25"/></svg></div>' : '');
+    c.innerHTML = day + (isOcupado
+      ? '<div class="dome"><svg viewBox="0 0 60 34" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#F3EEE1" stroke-width="2"><line x1="2" y1="32" x2="58" y2="32"/><path d="M2 32 A28 28 0 0 1 58 32"/><line x1="30" y1="32" x2="30" y2="5"/><line x1="30" y1="32" x2="8" y2="14"/><line x1="30" y1="32" x2="52" y2="14"/><line x1="30" y1="32" x2="14" y2="25"/><line x1="30" y1="32" x2="46" y2="25"/><path d="M8 25 A22 22 0 0 1 52 25"/></svg></div>'
+      : '');
     grid.appendChild(c);
   }
 }
 
-document.getElementById('btnGoogle').addEventListener('click', solicitarAcceso);
-
 document.getElementById('prevBtn').addEventListener('click', ()=>{
   viewMonth--;
   if(viewMonth<0){viewMonth=11; viewYear--;}
-  if(accessToken && tokenExpiry > Date.now()) cargarMes(viewYear, viewMonth);
-  else mostrarSinAcceso();
+  dibujarGrid(viewYear, viewMonth, ocupadosGlobal);
 });
 
 document.getElementById('nextBtn').addEventListener('click', ()=>{
   viewMonth++;
   if(viewMonth>11){viewMonth=0; viewYear++;}
-  if(accessToken && tokenExpiry > Date.now()) cargarMes(viewYear, viewMonth);
-  else mostrarSinAcceso();
+  dibujarGrid(viewYear, viewMonth, ocupadosGlobal);
 });
 
 document.getElementById('btnWhatsapp').addEventListener('click', ()=>{
@@ -424,7 +319,10 @@ document.getElementById('btnDescargar').addEventListener('click', ()=>{
   });
 });
 
-window.addEventListener('load', inicializarOAuth);
+window.addEventListener('load', ()=>{
+  dibujarGrid(viewYear, viewMonth, ocupadosGlobal);
+  cargarDisponibilidad();
+});
 </script>
 </body>
 </html>

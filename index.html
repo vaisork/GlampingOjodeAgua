@@ -152,6 +152,36 @@ footer{background:#0e0e0c;color:#ddd;padding:40px 7%}
   }
 }
 
+
+/* Mobile pricing compact v7 */
+@media (max-width: 760px){
+  .price-grid, .rates-grid, .pricing{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:14px !important;
+  }
+  .price-card, .rate-card{
+    padding:22px 18px !important;
+    min-height:auto !important;
+    border-radius:20px !important;
+  }
+  .price-card h3, .rate-card h3{
+    font-size:clamp(30px,9vw,40px) !important;
+    margin:0 0 6px !important;
+    line-height:1.05 !important;
+  }
+  .price-card .price, .rate-card .price,
+  .price-card strong, .rate-card strong{
+    font-size:clamp(24px,7vw,32px) !important;
+    margin:4px 0 10px !important;
+  }
+  .price-card p, .rate-card p{
+    font-size:16px !important;
+    line-height:1.35 !important;
+    margin:0 !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -196,22 +226,12 @@ footer{background:#0e0e0c;color:#ddd;padding:40px 7%}
 
 <section class="escape-tip">
   <div class="escape-tip-box">
-    <div class="escape-tip-label">Tip de escapada</div>
-    <h3>Ponte de acuerdo con alguien y escápense por la tarde.</h3>
-    <p>Saliendo del trabajo, agarren algo para asar y vénganse unas horas. No hace falta esperar al fin de semana.</p>
+    <div class="escape-tip-label">Plan de 6 horas</div>
+    <h3>Algo para el asador, una película y unas horas fuera de la rutina.</h3>
+    <p>Saliendo del trabajo todavía alcanza para hacer algo diferente. No hace falta esperar al fin de semana.</p>
   </div>
 </section>
-<section class="experience">
- <div class="eyebrow">Ojo de Agua</div>
- <h2>Todo lo que necesitas para desaparecer unas horas.</h2>
- <p>Domo geodésico con baño privado y agua caliente, cama queen, sofá cama y un espacio exterior para disfrutar a tu ritmo.</p>
- <div class="amenities">
-  <span>Baño privado</span><span>Agua caliente</span><span>Wi‑Fi</span><span>Proyector</span>
-  <span>Asador</span><span>Área verde</span><span>Cafetera</span><span>Juegos</span>
-  <span>Pet friendly</span><span>Estacionamiento</span>
- </div>
- <p class="note">Las fotografías definitivas de esta sección se seleccionarán del banco visual real de Ojo de Agua.</p>
-</section>
+
 
 <section class="placeholder">
  <div class="eyebrow">Experiencias</div>

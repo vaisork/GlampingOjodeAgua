@@ -2,6 +2,15 @@
 <html lang="es">
 <!-- OJO-DE-AGUA-V10 · INDEX CERRADO -->
 <head>
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0G8VJ13QFG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-0G8VJ13QFG');
+</script>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Glamping Ojo de Agua | Tu escapada cerca de Toluca</title>
@@ -461,6 +470,36 @@ footer{background:#0e0e0c;color:#ddd;padding:40px 7%}
     </div>
   </div>
 
-<div class="site-version">Versión V11B · SOCIAL PROOF · 2026-09-10</div>
+<div class="site-version">Versión V11C · SOCIAL PROOF · 2026-09-10</div>
 </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  function track(eventName, params) {
+    if (typeof gtag === 'function') {
+      gtag('event', eventName, params || {});
+    }
+  }
+
+  document.querySelectorAll('a[href]').forEach(function (link) {
+    link.addEventListener('click', function () {
+      const href = link.getAttribute('href') || '';
+      const label = (link.textContent || '').trim();
+
+      if (href.includes('wa.me/')) {
+        track('click_whatsapp', {link_text: label, link_url: href, page_section: 'index'});
+      } else if (href.includes('calendario.html')) {
+        track('click_availability', {link_text: label, link_url: href, page_section: 'index'});
+      } else if (href.includes('airbnb.')) {
+        track('click_airbnb', {link_text: label, link_url: href, page_section: 'social_proof'});
+      } else if (href.includes('galeria.html')) {
+        track('click_gallery', {link_text: label, link_url: href, page_section: 'index'});
+      } else if (href.includes('experiencias.html')) {
+        track('click_experiences', {link_text: label, link_url: href, page_section: 'index'});
+      }
+    });
+  });
+});
+</script>
+
 </body></html>

@@ -306,6 +306,67 @@ footer{background:#0e0e0c;color:#ddd;padding:40px 7%}
   .social-quote{font-size:15px}
 }
 
+
+/* V11D · navegación móvil */
+@media(max-width:750px){
+  nav{
+    padding:18px 6% 14px;
+    align-items:flex-start;
+    flex-direction:column;
+    gap:13px;
+  }
+  nav > strong{
+    font-size:1rem;
+    line-height:1.2;
+  }
+  nav .links{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  nav .links a{
+    font-size:.82rem;
+  }
+
+  /* El nombre del sitio ya funciona como referencia de Inicio */
+  nav .links a[href="index.html"]{
+    display:none !important;
+  }
+
+  /* Mostrar las páginas principales en móvil */
+  nav .links a[href="experiencias.html"],
+  nav .links a[href="galeria.html"],
+  nav .links a[href="calendario.html"]{
+    display:inline-flex !important;
+    align-items:center;
+    min-height:38px;
+    padding:9px 13px;
+    border:1px solid rgba(255,255,255,.42);
+    border-radius:999px;
+    background:rgba(0,0,0,.25);
+    backdrop-filter:blur(5px);
+  }
+
+  /* Instagram/Facebook quedan en el footer para no saturar el encabezado */
+  nav .links a.social-icon:not(.wa){
+    display:none !important;
+  }
+
+  /* WhatsApp permanece visible */
+  nav .links a.wa{
+    display:inline-flex !important;
+    width:38px;
+    height:38px;
+    flex:0 0 38px;
+  }
+
+  .hero{
+    padding-top:155px;
+  }
+}
+
 </style>
 
 <link rel="canonical" href="https://vaisork.github.io/GlampingOjodeAgua/">
@@ -351,7 +412,7 @@ footer{background:#0e0e0c;color:#ddd;padding:40px 7%}
 <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg></a>
     <a href="https://www.facebook.com/profile.php?id=61592651300289" target="_blank" rel="noopener" class="social-icon" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true">
 <path d="M14 8h3V4h-3c-3.3 0-5 2-5 5v2H6v4h3v9h4v-9h3.3l.7-4H13V9c0-.7.3-1 1-1z"/></svg></a>
-    <a class="wa" href="https://wa.me/527223805677?text=Hola%20vengo%20de%20la%20pagina%20del%20Glamping%20Ojo%20de%20Agua" target="_blank" rel="noopener" class="social-icon" aria-label="WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true">
+    <a class="wa social-icon" href="https://wa.me/527223805677?text=Hola%20vengo%20de%20la%20pagina%20del%20Glamping%20Ojo%20de%20Agua" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true">
 <path d="M20.5 3.5A11.8 11.8 0 0 0 12.1 0C5.6 0 .3 5.3.3 11.8c0 2.1.5 4.1 1.6 5.9L.2 24l6.5-1.7a11.8 11.8 0 0 0 5.4 1.3h.1c6.5 0 11.8-5.3 11.8-11.8 0-3.1-1.2-6.1-3.5-8.3zm-8.4 18.1c-1.7 0-3.4-.5-4.9-1.3l-.4-.2-3.9 1 1-3.8-.2-.4a9.7 9.7 0 1 1 8.4 4.7zm5.3-7.3c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.2-.2.3-.8.9-1 1.1-.2.2-.4.2-.7.1-1.8-.9-3-1.7-4.2-3.8-.3-.6.3-.5.9-1.8.1-.2 0-.4 0-.6-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.2-1.2 2.9s1.2 3.3 1.4 3.6c.2.2 2.4 3.7 5.9 5.2 2.2.9 3.1 1 4.2.8.7-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/></svg></a>
   </div>
 </nav>
@@ -470,7 +531,7 @@ footer{background:#0e0e0c;color:#ddd;padding:40px 7%}
     </div>
   </div>
 
-<div class="site-version">Versión V11C · SOCIAL PROOF · 2026-09-10</div>
+<div class="site-version">Versión V11D · NAVEGACIÓN MÓVIL · 2026-09-10</div>
 </footer>
 
 <script>

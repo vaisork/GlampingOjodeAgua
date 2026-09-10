@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0G8VJ13QFG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-0G8VJ13QFG');
+</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Disponibilidad | Glamping Ojo de Agua cerca de Toluca</title>
@@ -171,7 +180,7 @@
     font-size:11px;color:#8a8368;margin-top:14px;
   }
 
-/* ===== CALENDARIO V2 · VISUAL ALINEADO AL INDEX ===== */
+/* ===== CALENDARIO V3 · VISUAL ALINEADO AL INDEX ===== */
 :root{
   --paper:#f4efe5;
   --ink2:#25251f;
@@ -487,7 +496,7 @@ h1{
     <button id="btnDescargar">Compartir calendario</button>
   </div>
   <a class="back-link" href="index.html">← Volver a Glamping Ojo de Agua</a>
-  <div class="site-version">CALENDARIO V2 · 2026-09-10</div>
+  <div class="site-version">CALENDARIO V3 · 2026-09-10</div>
 </div>
 
 <script>
@@ -801,5 +810,44 @@ window.addEventListener('load', ()=>{
   cargarDisponibilidad();
 });
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  function track(eventName, params) {
+    if (typeof gtag === 'function') {
+      gtag('event', eventName, params || {});
+    }
+  }
+
+  const whatsappBtn = document.getElementById('btnWhatsapp');
+  if (whatsappBtn) {
+    whatsappBtn.addEventListener('click', function () {
+      track('click_whatsapp', {page_section: 'calendar', action: 'reservation_request'});
+    });
+  }
+
+  const shareBtn = document.getElementById('btnDescargar');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', function () {
+      track('share_calendar', {page_section: 'calendar'});
+    });
+  }
+
+  const prevBtn = document.getElementById('prevBtn');
+  if (prevBtn) {
+    prevBtn.addEventListener('click', function () {
+      track('calendar_month_nav', {direction: 'previous'});
+    });
+  }
+
+  const nextBtn = document.getElementById('nextBtn');
+  if (nextBtn) {
+    nextBtn.addEventListener('click', function () {
+      track('calendar_month_nav', {direction: 'next'});
+    });
+  }
+});
+</script>
+
 </body>
 </html>

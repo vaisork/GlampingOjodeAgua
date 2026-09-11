@@ -225,6 +225,13 @@ body{
   border-radius:999px;
   padding:8px 14px;
 }
+.topbar-links{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+@media(max-width:480px){
+  .site-topbar{flex-wrap:wrap;gap:10px}
+  .topbar-links{gap:6px}
+  .home-link{font-size:12px;padding:7px 11px}
+  .topbar-links a[href="index.html"]{display:none}
+}
 
 .card{
   background:var(--paper);
@@ -448,7 +455,11 @@ h1{
 
 <header class="site-topbar">
   <a class="brand-link" href="index.html">Glamping Ojo de Agua</a>
-  <a class="home-link" href="index.html" aria-label="Volver al inicio">Inicio</a>
+  <div class="topbar-links">
+    <a class="home-link" href="index.html">Inicio</a>
+    <a class="home-link" href="experiencias.html">Experiencias</a>
+    <a class="home-link" href="galeria.html">Galería</a>
+  </div>
 </header>
 
 

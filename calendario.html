@@ -195,9 +195,9 @@
 }
 
 body{
-  background:var(--paper);
-  color:var(--ink2);
-  font-family:system-ui,-apple-system,Segoe UI,sans-serif;
+  background:var(--dark);
+  color:var(--paper);
+  font-family:"Work Sans",system-ui,-apple-system,Segoe UI,sans-serif;
   padding:0 0 56px;
   display:block;
 }
@@ -213,7 +213,7 @@ body{
 }
 .site-topbar a{
   text-decoration:none;
-  color:var(--ink2);
+  color:var(--paper);
 }
 .brand-link{
   font-family:'Bodoni Moda',Georgia,serif;
@@ -222,10 +222,11 @@ body{
 }
 .home-link{
   font-size:14px;
-  border:1px solid rgba(37,37,31,.22);
+  border:1px solid rgba(244,239,229,.28);
   border-radius:999px;
   padding:8px 14px;
 }
+.home-link:hover{border-color:var(--amber);}
 .topbar-links{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
 @media(max-width:480px){
   .site-topbar{flex-wrap:wrap;gap:10px}
@@ -241,9 +242,9 @@ body{
   width:calc(100% - 32px);
   max-width:680px;
   margin:0 auto;
-  box-shadow:0 18px 60px rgba(33,28,20,.10);
+  box-shadow:0 30px 80px rgba(0,0,0,.4);
   overflow:hidden;
-  border:1px solid rgba(37,37,31,.06);
+  border:1px solid rgba(0,0,0,.06);
 }
 .hero{
   margin:0 -28px 22px;

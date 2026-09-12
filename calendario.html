@@ -227,6 +227,7 @@ body{
   padding:8px 14px;
 }
 .home-link:hover{border-color:var(--amber);}
+.home-link.active{color:var(--amber);border-color:var(--amber);font-weight:700;}
 .topbar-links{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
 @media(max-width:480px){
   .site-topbar{flex-wrap:wrap;gap:10px}
@@ -462,6 +463,7 @@ h1{
     <a class="home-link" href="index.html">Inicio</a>
     <a class="home-link" href="experiencias.html">Experiencias</a>
     <a class="home-link" href="galeria.html">Galería</a>
+    <a class="home-link active" href="calendario.html">Disponibilidad</a>
   </div>
 </header>
 
@@ -510,7 +512,7 @@ h1{
     <button id="btnDescargar">Compartir calendario</button>
   </div>
   <a class="back-link" href="index.html">← Volver a Glamping Ojo de Agua</a>
-  <div class="site-version">CALENDARIO V3 · 2026-09-10</div>
+  <!-- CALENDARIO V3 · 2026-09-10 -->
 </div>
 
 <footer style="background:#0d0d0b;color:#d8d5cd;padding:32px 7%;margin-top:40px">

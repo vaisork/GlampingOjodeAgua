@@ -65,6 +65,7 @@
 .serif{font-family:"Bodoni Moda",Georgia,serif}
 nav{position:relative;z-index:2;width:100%;display:flex;justify-content:space-between;align-items:center;padding:26px 6%;color:var(--paper);background:var(--bg);border-bottom:1px solid var(--line)}
 nav .links{display:flex;gap:22px;align-items:center} nav a{color:inherit;text-decoration:none;font-size:.9rem}
+nav a.active{color:var(--amber2);font-weight:600}
 .hero{min-height:88vh;display:grid;grid-template-columns:1.05fr .95fr;background:var(--bg);color:var(--paper)}
 .hero-copy{display:flex;flex-direction:column;justify-content:center;padding:64px 6% 64px 7%}
 .hero-photo{position:relative;overflow:hidden;background:var(--amber)}
@@ -412,7 +413,7 @@ footer{background:#0e0e0c;color:#ddd;padding:40px 7%}
 <nav>
   <strong>Glamping Ojo de Agua</strong>
   <div class="links">
-    <a href="index.html">Inicio</a><a href="experiencias.html">Experiencias</a>
+    <a href="index.html" class="active">Inicio</a><a href="experiencias.html">Experiencias</a>
     <a href="galeria.html">Galería</a><a href="calendario.html">Disponibilidad</a>
     <a href="https://www.instagram.com/glampingojodeagua/" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram" title="Instagram"><svg class="stroke" viewBox="0 0 24 24" aria-hidden="true">
 <rect x="3" y="3" width="18" height="18" rx="5"></rect>
@@ -441,8 +442,8 @@ footer{background:#0e0e0c;color:#ddd;padding:40px 7%}
 
 <section class="intro">
  <div class="eyebrow">Tu refugio cerca de la ciudad</div>
- <h2>No esperes al fin de semana.</h2>
- <p>Una tarde diferente, una carne asada, una película, tiempo juntos o simplemente unas horas fuera de la rutina.</p>
+ <h2>Escápate sin convertirlo en un viaje.</h2>
+ <p>Una tarde diferente, una carne asada, una película, tiempo juntos o simplemente unas horas fuera de la rutina. Tu espacio privado para desconectarte unas horas.</p>
  <div class="cards">
   <div class="card"><strong>4 horas</strong><h3>$350</h3><p>Una pausa entre semana. Disponible de lunes a jueves.</p></div>
   <div class="card"><strong>6 horas</strong><h3>$500</h3><p>Más tiempo para comer, descansar y disfrutar el espacio. Lunes a jueves.</p></div>
@@ -454,8 +455,8 @@ footer{background:#0e0e0c;color:#ddd;padding:40px 7%}
 <section class="escape-tip">
   <div class="escape-tip-box">
     <div class="escape-tip-label">Plan de 6 horas</div>
-    <h3>Algo para el asador, una película y unas horas fuera de la rutina.</h3>
-    <p>Saliendo del trabajo todavía alcanza para hacer algo diferente. No hace falta esperar al fin de semana.</p>
+    <h3>Saliendo del trabajo todavía alcanza para hacer algo diferente.</h3>
+    <p><strong>No hace falta esperar al fin de semana.</strong> Algo para el asador, una película y unas horas fuera de la rutina — una escapada que cabe en tu día.</p>
   </div>
 </section>
 
@@ -463,12 +464,13 @@ footer{background:#0e0e0c;color:#ddd;padding:40px 7%}
 <section class="placeholder">
  <div class="eyebrow">Experiencias</div>
  <h2>¿Quieres hacerla especial?</h2>
- <p>Aniversarios, cumpleaños, sorpresas o simplemente porque sí. Podemos preparar el espacio para que tu escapada se sienta diferente.</p>
+ <p>Una sorpresa, una cena, flores, fotografía, un cumpleaños o algo que todavía no hemos imaginado.</p>
+ <p><strong>Cuéntanos tu idea y podemos dejar lo acordado preparado antes de que llegues. Tú sólo llegas.</strong></p>
  <a class="btn primary" href="experiencias.html">Conocer experiencias</a>
 </section>
 
 <section class="intro">
- <h2>Reducimos la distancia entre una idea y un recuerdo.</h2>
+ <h2>¿Te escaparías hoy?</h2>
  <p>Consulta las fechas disponibles y elige cuándo quieres venir.</p>
  <a class="btn primary" href="calendario.html">Ver disponibilidad</a>
 </section>
@@ -479,9 +481,8 @@ footer{background:#0e0e0c;color:#ddd;padding:40px 7%}
     <img src="images/domo-geometria.jpg" alt="Estructura geométrica del techo del domo">
     
     <div class="photo-tip" style="position:absolute;right:24px;top:22px;background:rgba(244,239,229,.92);backdrop-filter:blur(6px);color:#24231f;padding:12px 16px;border-radius:14px;max-width:280px;box-shadow:0 8px 24px rgba(0,0,0,.18)">
-      <div style="font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#8b5c25;margin-bottom:5px">Tip para tus fotos</div>
-      <strong style="font-family:'Bodoni Moda',Georgia,serif;font-size:18px">Aprovecha la geometría del domo.</strong>
-      <div style="font-size:13px;line-height:1.4;margin-top:4px">El ventanal, la madera y la luz natural son el fondo perfecto para fotos aesthetic.</div>
+      <strong style="font-family:'Bodoni Moda',Georgia,serif;font-size:18px">El lugar también es parte del recuerdo.</strong>
+      <div style="font-size:13px;line-height:1.4;margin-top:4px">La geometría del domo, el gran ventanal, la madera y la luz crean espacios que también vas a querer fotografiar.</div>
     </div>
   </div>
 
@@ -543,7 +544,7 @@ footer{background:#0e0e0c;color:#ddd;padding:40px 7%}
     </div>
   </div>
 
-<div class="site-version">Versión V11D · NAVEGACIÓN MÓVIL · 2026-09-10</div>
+<!-- Versión V11D · NAVEGACIÓN MÓVIL · 2026-09-10 -->
 </footer>
 
 <script>

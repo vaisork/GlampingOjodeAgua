@@ -346,6 +346,7 @@
           <div class="idea-icon">🔥</div>
           <h3>Carnita asada</h3>
           <p>Asador, jardín, música y fogata. A tu manera o con apoyo previo para dejar parte de la experiencia preparada.</p>
+          <a class="track-carnita" href="experiencias/carnita-asada/" style="margin-top:auto;padding-top:16px;text-decoration:none;font-weight:700;color:#9a6a32">Conoce Experiencia al Grill →</a>
         </div>
       </article>
 
@@ -499,6 +500,15 @@
       fireEvent('click_whatsapp', {
         page: 'experiencias',
         location: el.dataset.location || 'unknown'
+      });
+    });
+  });
+
+  document.querySelectorAll('.track-carnita').forEach(function(el){
+    el.addEventListener('click', function(){
+      fireEvent('click_experience_detail', {
+        page: 'experiencias',
+        experience: 'carnita_asada'
       });
     });
   });

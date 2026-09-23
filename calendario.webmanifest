@@ -1,0 +1,19 @@
+{
+  "id": "/calendario.html",
+  "name": "Calendario · Glamping Ojo de Agua",
+  "short_name": "Calendario Ojo de Agua",
+  "description": "Disponibilidad en vivo de Glamping Ojo de Agua.",
+  "start_url": "/calendario.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#171714",
+  "theme_color": "#171714",
+  "icons": [
+    {
+      "src": "/icons/calendario-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

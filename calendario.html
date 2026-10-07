@@ -35,7 +35,8 @@
 <meta property="og:image:height" content="747">
 <meta property="og:image:alt" content="Domo geodésico de Glamping Ojo de Agua iluminado de noche">
 <meta name="twitter:image" content="https://glampingojodeagua.mx/images/domo-noche-panoramica.jpg">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;1,400&family=Work+Sans:wght@400;500;600;700&display=swap">
 <style>
   :root{
@@ -493,7 +494,7 @@ h1{
 
 <div class="card" id="capture">
   <div class="hero">
-    <img src="images/fogata-pareja.jpg" alt="Glamping Ojo de Agua de noche">
+    <img src="images/fogata-pareja.jpg" fetchpriority="high" alt="Glamping Ojo de Agua de noche">
     <div class="hero-caption">Tu refugio cerca de la ciudad</div>
   </div>
   <div class="header">
@@ -826,6 +827,20 @@ document.getElementById('btnWhatsapp').addEventListener('click', ()=>{
   window.open('https://wa.me/525653967952?text=' + texto, '_blank');
 });
 
+let html2canvasListo = null;
+function cargarHtml2Canvas(){
+  if(!html2canvasListo){
+    html2canvasListo = new Promise((resolve, reject)=>{
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+      script.onload = resolve;
+      script.onerror = reject;
+      document.body.appendChild(script);
+    });
+  }
+  return html2canvasListo;
+}
+
 document.getElementById('btnDescargar').addEventListener('click', async ()=>{
   const btn = document.getElementById('btnDescargar');
   const textoOriginal = btn.textContent;
@@ -833,6 +848,7 @@ document.getElementById('btnDescargar').addEventListener('click', async ()=>{
   btn.disabled = true;
 
   try{
+    await cargarHtml2Canvas();
     const canvas = await html2canvas(document.getElementById('capture'), {
       backgroundColor:'#f4efe5',
       scale:2,

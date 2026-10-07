@@ -70,10 +70,14 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;1,400&family=Work+Sans:wght@400;500;600;700&display=swap">
 <style>
 :root{--bg:#14140f;--paper:#f4efe5;--amber:#c58b45;--amber2:#e0b777;--green:#6f8e64;--ink:#f4efe5;--inkdark:#25251f;--line:rgba(244,239,229,.14);--muted:#a8a294}
-*{box-sizing:border-box} body{margin:0;font-family:"Work Sans",system-ui,-apple-system,Segoe UI,sans-serif;background:var(--paper);color:var(--inkdark)}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:"Work Sans",system-ui,-apple-system,Segoe UI,sans-serif;background:var(--paper);color:var(--inkdark);position:relative}
 .serif{font-family:"Bodoni Moda",Georgia,serif}
+h1,h2,h3{text-wrap:balance}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+body::before{content:"";position:fixed;inset:0;z-index:999;pointer-events:none;opacity:.035;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 nav{position:relative;z-index:2;width:100%;display:flex;justify-content:space-between;align-items:center;padding:26px 6%;color:var(--paper);background:var(--bg);border-bottom:1px solid var(--line)}
-nav .links{display:flex;gap:22px;align-items:center} nav a{color:inherit;text-decoration:none;font-size:.9rem}
+nav .links{display:flex;gap:22px;align-items:center} nav a{color:inherit;text-decoration:none;font-size:.9rem;transition:color .2s ease}
+nav a:not(.social-icon):hover{color:var(--amber2)}
 nav a.active{color:var(--amber2);font-weight:600}
 .brand-logo{width:36px;height:36px;border-radius:50%;flex:0 0 auto}
 .brand-group{display:flex;align-items:center;gap:10px}
@@ -85,12 +89,20 @@ nav a.active{color:var(--amber2);font-weight:600}
 .eyebrow::before{content:"";width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:8px solid var(--amber);flex:0 0 auto}
 h1{font-family:"Bodoni Moda",Georgia,serif;font-weight:400;font-size:clamp(2.8rem,5.6vw,5.2rem);line-height:.98;margin:20px 0}
 .hero p{font-size:1.1rem;line-height:1.65;max-width:520px;color:#d8d4ca}.prices{margin:26px 0;font-size:1.02rem;letter-spacing:.02em}
-.btn{display:inline-block;padding:14px 22px;border-radius:999px;text-decoration:none;margin:5px 8px 5px 0;font-weight:600;font-family:"Work Sans",sans-serif}
-.primary{background:var(--amber);color:#14140f}.secondary{border:1px solid rgba(244,239,229,.4);color:var(--paper)}
-section{padding:80px 7%}.intro{max-width:900px;margin:auto;text-align:center}.intro .eyebrow{justify-content:center}.intro h2,.experience h2{font:400 clamp(2.2rem,5vw,4rem)/1.05 "Bodoni Moda",Georgia,serif}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:45px}.card{background:#fff;border:1px solid rgba(37,37,31,.08);padding:30px;border-radius:20px;box-shadow:0 10px 30px rgba(37,37,31,.05)}.card strong{font:400 2rem "Bodoni Moda",Georgia,serif;color:var(--amber)}
-.experience{background:var(--bg);color:var(--paper)}.amenities{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}.amenities span{border:1px solid #555;padding:10px 14px;border-radius:999px}
-.note{opacity:.72;font-size:.9rem;margin-top:35px}.placeholder{padding:70px 7%;background:#e7decd;text-align:center}
+.btn{display:inline-block;padding:14px 22px;border-radius:999px;text-decoration:none;margin:5px 8px 5px 0;font-weight:600;font-family:"Work Sans",sans-serif;transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease,border-color .2s ease}
+.primary{background:var(--amber);color:#14140f}
+.primary:hover{background:var(--amber2);transform:translateY(-2px);box-shadow:0 10px 24px rgba(197,139,69,.35)}
+.secondary{border:1px solid rgba(244,239,229,.4);color:var(--paper)}
+.secondary:hover{border-color:var(--amber2);color:var(--amber2);transform:translateY(-2px)}
+.btn:active{transform:translateY(0) scale(.97)}
+section{padding:80px 7%}.intro{max-width:900px;margin:auto;text-align:center}.intro .eyebrow{justify-content:center}.intro h2{font:400 clamp(2.2rem,5vw,4rem)/1.05 "Bodoni Moda",Georgia,serif}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:45px;align-items:start}
+.card{position:relative;background:#fff;border:1px solid rgba(37,37,31,.08);padding:30px;border-radius:20px;box-shadow:0 10px 30px rgba(37,37,31,.05);text-align:left;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.card:hover{transform:translateY(-6px);box-shadow:0 20px 45px rgba(37,37,31,.12);border-color:rgba(197,139,69,.35)}
+.card strong{font:400 2rem "Bodoni Moda",Georgia,serif;color:var(--amber)}
+.card.featured{border:1px solid var(--amber);box-shadow:0 16px 40px rgba(197,139,69,.18)}
+.card-badge{position:absolute;top:-13px;right:22px;background:var(--amber);color:#14140f;font-size:.72rem;font-weight:700;letter-spacing:.04em;padding:5px 12px;border-radius:999px}
+.placeholder{padding:70px 7%;background:#e7decd;text-align:center}
 .placeholder .eyebrow,.intro .eyebrow{color:#9a6a32;justify-content:center}
 footer{background:#0e0e0c;color:#ddd;padding:40px 7%}
 @media(max-width:750px){
@@ -114,7 +126,8 @@ footer{background:#0e0e0c;color:#ddd;padding:40px 7%}
 
 .mix-section{max-width:1180px;margin:0 auto;padding:64px 24px}
 .mix-photo{position:relative;overflow:hidden;border-radius:24px;min-height:430px;border:1px solid rgba(255,255,255,.12);box-shadow:0 18px 55px rgba(0,0,0,.28)}
-.mix-photo img{width:100%;height:100%;min-height:430px;object-fit:cover;display:block}
+.mix-photo img{width:100%;height:100%;min-height:430px;object-fit:cover;display:block;transition:transform .5s ease}
+.mix-photo:hover img{transform:scale(1.035)}
 .mix-caption{position:absolute;left:24px;bottom:22px;background:rgba(18,18,16,.78);backdrop-filter:blur(8px);padding:14px 18px;border-radius:14px;max-width:470px}
 .mix-caption strong{display:block;font-family:"Bodoni Moda",Georgia,serif;font-size:24px;color:#f4efe5;margin-bottom:4px}
 .mix-caption span{color:#ddd;font-size:14px}
@@ -122,8 +135,10 @@ footer{background:#0e0e0c;color:#ddd;padding:40px 7%}
 .amenity-title h2{font-family:"Bodoni Moda",Georgia,serif;font-size:clamp(30px,4vw,46px);margin:0 0 8px}
 .amenity-title p{color:#6f6b62;margin:0}
 .amenity-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.amenity-card{background:#20201c;border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:22px 12px;text-align:center}
-.amenity-card svg{width:34px;height:34px;fill:none;stroke:#c58b45;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-bottom:10px}
+.amenity-card{background:#20201c;border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:22px 12px;text-align:center;transition:transform .25s ease,border-color .25s ease,background-color .25s ease}
+.amenity-card:hover{transform:translateY(-4px);border-color:rgba(197,139,69,.45);background:#262620}
+.amenity-card svg{width:34px;height:34px;fill:none;stroke:#c58b45;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-bottom:10px;transition:stroke .25s ease}
+.amenity-card:hover svg{stroke:var(--amber2)}
 .amenity-card strong{display:block;font-size:15px}
 .second-photo{margin-top:42px}
 @media(max-width:760px){
@@ -198,28 +213,8 @@ footer{background:#0e0e0c;color:#ddd;padding:40px 7%}
 }
 
 
-/* Mobile cleanup v6 */
+/* Mobile: foto sin leyenda superpuesta, tip reposicionado */
 @media (max-width: 760px){
-  .pricing, .price-grid, .rates-grid{
-    gap:16px !important;
-  }
-  .price-card, .rate-card{
-    min-height:0 !important;
-    padding:28px 22px !important;
-    border-radius:22px !important;
-  }
-  .price-card h3, .rate-card h3{
-    margin:0 0 10px !important;
-    font-size:clamp(34px,10vw,46px) !important;
-    line-height:1 !important;
-  }
-  .price-card .price, .rate-card .price{
-    margin:8px 0 16px !important;
-  }
-  .price-card p, .rate-card p{
-    margin-bottom:0 !important;
-    line-height:1.4 !important;
-  }
   .mix-photo:first-of-type .mix-caption{
     display:none !important;
   }
@@ -228,36 +223,6 @@ footer{background:#0e0e0c;color:#ddd;padding:40px 7%}
     right:16px !important;
     top:18px !important;
     max-width:none !important;
-  }
-}
-
-
-/* Mobile pricing compact v7 */
-@media (max-width: 760px){
-  .price-grid, .rates-grid, .pricing{
-    display:grid !important;
-    grid-template-columns:1fr !important;
-    gap:14px !important;
-  }
-  .price-card, .rate-card{
-    padding:22px 18px !important;
-    min-height:auto !important;
-    border-radius:20px !important;
-  }
-  .price-card h3, .rate-card h3{
-    font-size:clamp(30px,9vw,40px) !important;
-    margin:0 0 6px !important;
-    line-height:1.05 !important;
-  }
-  .price-card .price, .rate-card .price,
-  .price-card strong, .rate-card strong{
-    font-size:clamp(24px,7vw,32px) !important;
-    margin:4px 0 10px !important;
-  }
-  .price-card p, .rate-card p{
-    font-size:16px !important;
-    line-height:1.35 !important;
-    margin:0 !important;
   }
 }
 
@@ -289,15 +254,12 @@ footer{background:#0e0e0c;color:#ddd;padding:40px 7%}
     line-height:1.35 !important;
     margin:0 !important;
   }
-}
-
-
-.site-version{
-  margin-top:28px;
-  font-size:11px;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.38);
+  .card-badge{
+    top:-10px !important;
+    right:16px !important;
+    font-size:.66rem !important;
+    padding:4px 10px !important;
+  }
 }
 
 
@@ -431,7 +393,7 @@ footer{background:#0e0e0c;color:#ddd;padding:40px 7%}
  <p>Una tarde diferente, una carne asada, una película, tiempo juntos o simplemente unas horas fuera de la rutina. Tu espacio privado para desconectarte unas horas.</p>
  <div class="cards">
   <div class="card"><strong>4 horas</strong><h3>$350</h3><p>Una pausa entre semana. Disponible de lunes a jueves.</p></div>
-  <div class="card"><strong>6 horas</strong><h3>$500</h3><p>Más tiempo para comer, descansar y disfrutar el espacio. Lunes a jueves.</p></div>
+  <div class="card featured"><span class="card-badge">Más elegida</span><strong>6 horas</strong><h3>$500</h3><p>Más tiempo para comer, descansar y disfrutar el espacio. Lunes a jueves.</p></div>
   <div class="card"><strong>Una noche</strong><h3>$750</h3><p>Llega por la tarde y despierta sin haberte ido lejos.</p></div>
  </div>
 </section>

@@ -119,6 +119,7 @@ footer{background:#090a08;color:white;padding:32px 5%}
     <button data-filter="exterior">Exterior</button>
     <button data-filter="interior">El domo</button>
     <button data-filter="momentos">Momentos especiales</button>
+    <button data-filter="paquetes">Paquetes</button>
   </div>
 </section>
 
@@ -158,6 +159,26 @@ footer{background:#090a08;color:white;padding:32px 5%}
         <img loading="lazy" src="images/sorpresa-petalos.jpg" alt="Una sorpresa especial">
         <span class="photo-label">Una sorpresa especial</span>
       </button>
+
+      <button class="photo tall" data-cat="paquetes" data-i="7" aria-label="Abrir cartel: Experiencia al Grill, $950 MXN">
+        <img loading="lazy" src="images/paquete-grill.jpg" alt="Cartel del paquete Experiencia al Grill, $950 MXN para 2">
+        <span class="photo-label">Experiencia al Grill</span>
+      </button>
+
+      <button class="photo tall" data-cat="paquetes" data-i="8" aria-label="Abrir cartel: Charcutería, desde $459 MXN">
+        <img loading="lazy" src="images/paquete-charcuteria.jpg" alt="Cartel del paquete de Charcutería, desde $459 MXN">
+        <span class="photo-label">Charcutería</span>
+      </button>
+
+      <button class="photo wide" data-cat="paquetes" data-i="9" aria-label="Abrir cartel: Experiencias románticas, desde $700 MXN">
+        <img loading="lazy" src="images/paquete-romantico.jpg" alt="Cartel de Experiencias románticas, desde $700 MXN">
+        <span class="photo-label">Experiencias románticas</span>
+      </button>
+
+      <button class="photo tall" data-cat="paquetes" data-i="10" aria-label="Abrir cartel: Escapada sorpresa de cumpleaños, $5,670 MXN">
+        <img loading="lazy" src="images/paquete-cumpleanos.jpg" alt="Cartel de la Escapada sorpresa de cumpleaños, $5,670 MXN">
+        <span class="photo-label">Escapada de cumpleaños</span>
+      </button>
 </section>
 
 <section class="close">
@@ -189,7 +210,7 @@ footer{background:#090a08;color:white;padding:32px 5%}
 </div>
 
 <script>
-const imgs=['images/domo-noche-panoramica.jpg','images/domo-interior.jpg','images/sala-ventanal.jpg','images/domo-cine.jpg','images/domo-geometria.jpg','images/cumpleanos-domo.jpg','images/sorpresa-petalos.jpg'];
+const imgs=['images/domo-noche-panoramica.jpg','images/domo-interior.jpg','images/sala-ventanal.jpg','images/domo-cine.jpg','images/domo-geometria.jpg','images/cumpleanos-domo.jpg','images/sorpresa-petalos.jpg','images/paquete-grill.jpg','images/paquete-charcuteria.jpg','images/paquete-romantico.jpg','images/paquete-cumpleanos.jpg'];
 document.querySelectorAll('.filters button').forEach(btn=>{
   btn.addEventListener('click',()=>{
     document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('active'));

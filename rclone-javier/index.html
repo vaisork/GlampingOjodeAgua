@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+  <meta name="googlebot" content="noindex,nofollow,noarchive,nosnippet">
+  <title>rclone-javier | Integración personal de Google Drive</title>
+  <meta name="description" content="Descripción de la integración personal rclone-javier y su uso de Google Drive OAuth.">
+  <link rel="canonical" href="https://glampingojodeagua.mx/rclone-javier/">
+  <style>
+    :root{color-scheme:light;--bg:#f7f8fb;--ink:#172335;--muted:#48576a;--line:#dce4ee;--accent:#215b9b}
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.7 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+    .wrap{width:min(780px,calc(100% - 40px));margin:auto;padding:60px 0 90px}
+    .eyebrow{font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.76rem;color:var(--accent)}
+    h1{font-size:clamp(2rem,6vw,3.1rem);line-height:1.16;margin:10px 0 22px;letter-spacing:-.02em}
+    h2{font-size:1.24rem;line-height:1.35;margin:36px 0 8px}
+    p,li{color:var(--muted)}
+    a{color:var(--accent);text-underline-offset:3px}
+    a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+    .panel{padding:22px 24px;border:1px solid var(--line);background:#fff;border-radius:12px}
+    nav{display:flex;gap:18px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:18px}
+    ul{padding-left:1.35rem}
+    footer{border-top:1px solid var(--line);margin-top:50px;padding-top:20px;font-size:.88rem;color:var(--muted)}
+    @media(max-width:550px){.wrap{padding-top:34px}.panel{padding:18px}}
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <nav aria-label="Secciones de esta aplicación">
+    <a href="./" aria-current="page">Descripción</a>
+    <a href="privacidad.html">Política de privacidad</a>
+    <a href="#condiciones">Condiciones de uso</a>
+  </nav>
+  <p class="eyebrow">Integración individual · Acceso con Google OAuth</p>
+  <h1>rclone-javier</h1>
+  <p>Esta página informa sobre una configuración <strong>personal y no comercial</strong> de <a href="https://rclone.org/">rclone</a>, herramienta de código abierto para trabajar con archivos almacenados en servicios en la nube. No ofrece cuentas al público ni permite iniciar sesión en este sitio.</p>
+  <div class="panel">
+    <strong>¿Qué hace esta integración?</strong>
+    <ul>
+      <li>Conecta el equipo Ubuntu de su propietario con su propia cuenta de Google Drive mediante autorización OAuth.</li>
+      <li>Permite copiar archivos y realizar respaldos y restauraciones solicitados por el propietario.</li>
+      <li>Permite consultar y organizar carpetas y, cuando esté habilitado localmente, utilizar Google Drive como una carpeta en el equipo.</li>
+    </ul>
+  </div>
+  <h2>Por qué se solicita acceso a Google Drive</h2>
+  <p>El permiso <code>https://www.googleapis.com/auth/drive</code> permite leer archivos y sus metadatos, crear carpetas, subir y actualizar archivos y eliminar elementos. Se necesita para operaciones de sincronización, respaldo y montaje de lectura y escritura. Todas estas acciones se realizan bajo el control de quien autoriza la cuenta.</p>
+  <h2>Quién puede usarla</h2>
+  <p>Está destinada únicamente al titular de la cuenta de Google que configure y autorice el cliente OAuth de escritorio. No es una plataforma para clientes, huéspedes ni visitantes de Glamping Ojo de Agua.</p>
+  <h2>Protección de datos</h2>
+  <p>Esta página no solicita contraseñas ni recibe los archivos de Drive. Los tokens OAuth se administran en la configuración local de rclone; la transferencia de archivos se realiza entre el equipo autorizado y Google Drive, según las operaciones que ejecute el propietario.</p>
+  <p>Consulta la <a href="privacidad.html">política de privacidad específica de rclone-javier</a> para conocer el acceso, uso, almacenamiento, compartición y eliminación de datos.</p>
+  <h2 id="condiciones">Condiciones de uso</h2>
+  <p>Esta integración es de uso personal y se proporciona sin un servicio público ni garantías comerciales. El titular decide qué datos copia, modifica, elimina o restaura; debe mantener respaldos y revisar cuidadosamente las operaciones de escritura y borrado. rclone es software independiente: esta configuración personal no representa ni está afiliada a los desarrolladores de rclone, Google ni Glamping Ojo de Agua.</p>
+  <h2>Contacto</h2>
+  <p>Para consultas de privacidad relacionadas con esta integración: <a href="mailto:vaisork@gmail.com">vaisork@gmail.com</a>.</p>
+  <footer>Documentación de consentimiento OAuth para uso personal · Actualizada el 23 de octubre de 2026 · <a href="privacidad.html">Privacidad</a></footer>
+</main>
+</body>
+</html>

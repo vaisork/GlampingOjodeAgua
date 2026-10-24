@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+  <meta name="googlebot" content="noindex,nofollow,noarchive,nosnippet">
+  <title>Política de privacidad | rclone-javier</title>
+  <meta name="description" content="Política de privacidad para la integración personal de rclone con Google Drive.">
+  <link rel="canonical" href="https://glampingojodeagua.mx/rclone-javier/privacidad.html">
+  <style>
+    :root{color-scheme:light;--bg:#f7f8fb;--ink:#172335;--muted:#48576a;--line:#dce4ee;--accent:#215b9b}
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.7 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+    .wrap{width:min(780px,calc(100% - 40px));margin:auto;padding:60px 0 90px}
+    .eyebrow{font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.76rem;color:var(--accent)}
+    h1{font-size:clamp(2rem,6vw,3.1rem);line-height:1.16;margin:10px 0 22px;letter-spacing:-.02em}
+    h2{font-size:1.24rem;line-height:1.35;margin:32px 0 8px}
+    p,li{color:var(--muted)}
+    a{color:var(--accent);text-underline-offset:3px}
+    a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+    nav{display:flex;gap:18px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:18px}
+    ul{padding-left:1.35rem}
+    footer{border-top:1px solid var(--line);margin-top:50px;padding-top:20px;font-size:.88rem;color:var(--muted)}
+    @media(max-width:550px){.wrap{padding-top:34px}}
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <nav aria-label="Secciones de esta aplicación">
+    <a href="./">Descripción de rclone-javier</a>
+    <a href="privacidad.html" aria-current="page">Política de privacidad</a>
+  </nav>
+  <p class="eyebrow">Uso personal · Google Drive OAuth</p>
+  <h1>Política de privacidad de rclone-javier</h1>
+  <p><strong>Última actualización:</strong> 23 de octubre de 2026.</p>
+  <p>Esta política explica el uso de datos de Google mediante una configuración de <strong>rclone-javier</strong> destinada exclusivamente a la cuenta de su propietario. Esta integración es independiente de los servicios comerciales de Glamping Ojo de Agua, cuyo dominio aloja esta página informativa.</p>
+  <h2>1. Responsable y finalidad</h2>
+  <p>El responsable de esta integración personal es el titular de la cuenta que la autoriza. Se utiliza para consultar, respaldar, copiar, restaurar y administrar archivos entre su equipo Ubuntu y Google Drive, incluida la posibilidad de montar Drive como una carpeta local.</p>
+  <h2>2. Datos de Google a los que accede</h2>
+  <p>Al conceder el alcance OAuth <code>https://www.googleapis.com/auth/drive</code>, rclone puede acceder al contenido y metadatos de los archivos y carpetas de Google Drive autorizados, incluidos nombres, identificadores, estructura, tamaños y fechas, y puede crear, editar, mover o eliminar archivos según las operaciones solicitadas. El alcance concede acceso amplio: no está restringido a los archivos creados por la aplicación.</p>
+  <h2>3. Cómo se utilizan los datos</h2>
+  <ul>
+    <li>Mostrar archivos y carpetas en la terminal o en un montaje local.</li>
+    <li>Transferir archivos o generar respaldos entre el equipo del propietario y su cuenta de Google Drive.</li>
+    <li>Restaurar, organizar o eliminar archivos únicamente cuando se ejecutan las operaciones correspondientes.</li>
+  </ul>
+  <p>Los datos obtenidos de las API de Google no se utilizan para publicidad, elaboración de perfiles, reventa ni entrenamiento de modelos de IA.</p>
+  <h2>4. Almacenamiento y conservación</h2>
+  <p>rclone mantiene la autorización OAuth y los tokens necesarios en su configuración local, bajo la cuenta del sistema que ejecuta la herramienta. Los archivos copiados o respaldados permanecen en las ubicaciones de origen y destino elegidas por el propietario; los cachés o registros locales que se habiliten pueden conservar temporalmente nombres, metadatos o contenidos para el funcionamiento de las transferencias. Su permanencia depende de la configuración y de las acciones del propietario.</p>
+  <p>Esta página web informativa no aloja los archivos de Drive ni recibe tokens OAuth. No dispone de un formulario de acceso, analítica propia ni seguimiento de visitantes mediante scripts.</p>
+  <h2>5. Compartición y servicios de terceros</h2>
+  <p>El acceso y las transferencias usan las API de Google Drive y los servicios de Google asociados. No se comercializan ni comparten los datos de Drive con anunciantes o terceros por medio de esta página. Si el propietario decide copiar archivos a otros destinos mediante rclone, ese uso adicional dependerá de la configuración local y del servicio de destino elegido.</p>
+  <h2>6. Seguridad y control del acceso</h2>
+  <p>El propietario debe proteger las credenciales y los archivos de configuración, restringir los permisos del equipo y mantener el software actualizado. La autorización puede revocarse desde la sección de conexiones con terceros de su cuenta de Google, y las credenciales locales pueden eliminarse de la configuración de rclone. La revocación no elimina automáticamente copias de archivos ya realizadas.</p>
+  <h2>7. Uso limitado de los datos de Google</h2>
+  <p>El uso de información recibida de las API de Google se limita a proporcionar las funciones de gestión de archivos autorizadas por el usuario y se ajustará a la <a href="https://developers.google.com/terms/api-services-user-data-policy">Política de datos de usuario de los servicios de API de Google</a>, incluidos los requisitos de Uso Limitado aplicables. No se realiza transferencia de datos de Google para fines publicitarios.</p>
+  <h2>8. Consultas, acceso y eliminación</h2>
+  <p>El titular de la cuenta puede consultar y gestionar sus propios archivos en Google Drive y revocar el acceso de la integración en cualquier momento. Para preguntas relativas a esta política: <a href="mailto:vaisork@gmail.com">vaisork@gmail.com</a>.</p>
+  <h2>9. Cambios</h2>
+  <p>Esta política podrá actualizarse si cambian los permisos o las operaciones que realiza la integración; en tal caso se mostrará una nueva fecha de actualización.</p>
+  <footer><a href="./">Volver a rclone-javier</a> · Esta política no sustituye el aviso de privacidad comercial de Glamping Ojo de Agua.</footer>
+</main>
+</body>
+</html>

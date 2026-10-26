@@ -688,6 +688,20 @@ h1{
   cursor:pointer;
   text-align:left;
 }
+.consent-policy-link{
+  color:var(--amber);
+  text-decoration:underline;
+  text-underline-offset:2px;
+  font-weight:600;
+}
+.consent-policy-link:hover{
+  color:#dca358;
+}
+.consent-policy-link:focus-visible{
+  outline:2px solid var(--amber);
+  outline-offset:2px;
+  border-radius:2px;
+}
 .aviso-prudente{
   background:rgba(197,139,69,0.1);
   border-left:3px solid var(--amber);
@@ -888,7 +902,7 @@ h1{
       <div class="form-group form-consent">
         <input type="checkbox" id="aceptaWhatsapp" name="acepta_whatsapp" class="form-checkbox" required aria-required="true">
         <label for="aceptaWhatsapp" class="consent-label">
-          Acepto recibir mensajes por WhatsApp sobre el estado y confirmación de esta reserva. <span class="req" aria-hidden="true">*</span>
+          Acepto recibir mensajes por WhatsApp sobre el estado y confirmación de esta reserva, de acuerdo con la <a href="privacidad.html" target="_blank" rel="noopener" class="consent-policy-link" onclick="event.stopPropagation()">política de privacidad</a> y las <a href="condiciones.html" target="_blank" rel="noopener" class="consent-policy-link" onclick="event.stopPropagation()">condiciones del servicio</a>. <span class="req" aria-hidden="true">*</span>
         </label>
       </div>
 

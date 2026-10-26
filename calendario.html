@@ -513,6 +513,11 @@ h1{
   color:#a51d24;
   border-color:#f5c2c7;
 }
+.banner-badge.badge-pending{
+  background:#fff4e5;
+  color:#8a5800;
+  border-color:#ffd599;
+}
 .banner-title{
   font-family:'Bodoni Moda',Georgia,serif;
   font-size:26px;
@@ -877,7 +882,7 @@ h1{
       <div class="form-group">
         <label for="reservaTelefono" class="form-label">Número de WhatsApp <span class="req" aria-hidden="true">*</span></label>
         <input type="tel" id="reservaTelefono" name="telefono" class="form-input" placeholder="Ej. 722 123 4567" required autocomplete="tel" inputmode="tel" aria-required="true">
-        <span class="form-hint">Aquí te enviaremos la confirmación oficial e instrucciones de llegada.</span>
+        <span class="form-hint">Recibirás un primer mensaje preguntando si podemos escribirte; al responderlo te enviaremos tu confirmación oficial y número de reserva.</span>
       </div>
 
       <div class="form-group form-consent">
@@ -889,7 +894,7 @@ h1{
 
       <div class="aviso-prudente">
         <svg class="aviso-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <p><strong>Nota importante:</strong> El pago recibido no equivale a confirmación inmediata. Nuestro equipo verificará el pago y las noches seleccionadas para enviarte la confirmación oficial a tu WhatsApp.</p>
+        <p><strong>Nota importante:</strong> El pago recibido no equivale a confirmación inmediata. Tras validarse el pago íntegro y el bloqueo de fechas en el sistema, recibirás un primer WhatsApp para abrir contacto; en cuanto respondas, se enviará tu confirmación oficial con número de reserva.</p>
       </div>
 
       <div id="reservaError" class="form-alert" role="alert" aria-live="polite" style="display:none;"></div>
@@ -1352,18 +1357,32 @@ function verificarRetornoPago(){
           'Escribir por WhatsApp' +
         '</a>' +
       '</div>';
-  } else {
-    // Aprobado, pendiente o en proceso: SIEMPRE TEXTO PRUDENTE. NUNCA "reserva confirmada".
+  } else if(status === 'pending' || status === 'in_process'){
     banner.innerHTML =
-      '<div class="banner-badge">Proceso de pago recibido</div>' +
-      '<h2 class="banner-title">Hemos registrado tu proceso de pago</h2>' +
+      '<div class="banner-badge badge-pending">Pago en revisión</div>' +
+      '<h2 class="banner-title">Tu pago está pendiente de acreditación</h2>' +
       '<div class="banner-body">' +
-        '<p>El proveedor de pagos nos ha devuelto a esta página. <strong>Ten en cuenta que el pago recibido no equivale a confirmación inmediata de tu reserva.</strong></p>' +
-        '<p>Nuestro equipo verificará el pago y las noches seleccionadas en el sistema para <strong>enviarte la confirmación oficial a tu WhatsApp</strong>.</p>' +
-        '<p class="banner-hint">Si deseas compartir tu comprobante o tienes alguna duda, estamos para atenderte:</p>' +
+        '<p>Mercado Pago reporta tu pago como pendiente o en proceso de acreditación. <strong>Ten en cuenta que el regreso desde la pasarela nunca significa reserva confirmada.</strong></p>' +
+        '<p>En cuanto el pago quede aprobado y se verifique el bloqueo en Calendar, te llegará un primer WhatsApp preguntando si podemos escribirte; <strong>al responderlo, recibirás tu confirmación y número de reserva</strong>.</p>' +
+        '<p class="banner-hint">Si elegiste pago en efectivo o transferencia y deseas compartir tu comprobante:</p>' +
       '</div>' +
       '<div class="banner-actions">' +
-        '<a href="https://wa.me/525653967952?text=Hola%2C%20acabo%20de%20realizar%20mi%20proceso%20de%20pago%20en%20l%C3%ADnea%20para%20Glamping%20Ojo%20de%20Agua.%20Quiero%20dar%20seguimiento%20a%20mi%20confirmaci%C3%B3n." class="btn-banner-whatsapp" target="_blank" rel="noopener">' +
+        '<a href="https://wa.me/525653967952?text=Hola%2C%20mi%20pago%20en%20l%C3%ADnea%20para%20Glamping%20Ojo%20de%20Agua%20figura%20pendiente%20de%20acreditaci%C3%B3n." class="btn-banner-whatsapp" target="_blank" rel="noopener">' +
+          'Consultar por WhatsApp' +
+        '</a>' +
+      '</div>';
+  } else {
+    // Aprobado o retorno estándar: SIEMPRE TEXTO PRUDENTE. NUNCA "reserva confirmada".
+    banner.innerHTML =
+      '<div class="banner-badge">Pago registrado en validación</div>' +
+      '<h2 class="banner-title">Hemos registrado tu proceso de pago</h2>' +
+      '<div class="banner-body">' +
+        '<p>El proveedor de pagos nos ha devuelto a esta página. <strong>Ten en cuenta que el regreso desde Mercado Pago nunca significa reserva confirmada de forma inmediata.</strong></p>' +
+        '<p>El backend está validando la acreditación del pago y el bloqueo verificado en Calendar. Recibirás un primer mensaje por WhatsApp preguntando si podemos escribirte; <strong>en cuanto nos respondas, te enviaremos tu confirmación oficial con el número de reserva e instrucciones de llegada</strong>.</p>' +
+        '<p class="banner-hint">Si deseas dar seguimiento directo o tienes alguna duda:</p>' +
+      '</div>' +
+      '<div class="banner-actions">' +
+        '<a href="https://wa.me/525653967952?text=Hola%2C%20acabo%20de%20realizar%20mi%20pago%20en%20l%C3%ADnea%20para%20Glamping%20Ojo%20de%20Agua.%20Quiero%20dar%20seguimiento%20a%20mi%20confirmaci%C3%B3n." class="btn-banner-whatsapp" target="_blank" rel="noopener">' +
           'Contactar por WhatsApp para seguimiento' +
         '</a>' +
       '</div>';

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <!-- Google Analytics 4 -->
@@ -483,6 +483,316 @@ h1{
   .action-copy h2{font-size:29px}
 }
 
+/* ===== FORMULARIO DE RESERVA Y PAGO CM-63 ===== */
+.payment-return-banner{
+  width:calc(100% - 32px);
+  max-width:680px;
+  margin:16px auto 20px;
+  padding:24px 26px;
+  border-radius:24px;
+  background:var(--paper);
+  color:var(--ink2);
+  box-shadow:0 18px 50px rgba(0,0,0,.35);
+  border:1px solid rgba(0,0,0,.08);
+}
+.banner-badge{
+  display:inline-block;
+  background:var(--soft);
+  color:var(--ink2);
+  border:1px solid rgba(37,37,31,.2);
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  padding:4px 12px;
+  border-radius:999px;
+  margin-bottom:10px;
+}
+.banner-badge.badge-warning{
+  background:#fce8e6;
+  color:#a51d24;
+  border-color:#f5c2c7;
+}
+.banner-badge.badge-pending{
+  background:#fff4e5;
+  color:#8a5800;
+  border-color:#ffd599;
+}
+.banner-title{
+  font-family:'Bodoni Moda',Georgia,serif;
+  font-size:26px;
+  margin:0 0 10px;
+  line-height:1.15;
+  color:var(--ink2);
+}
+.banner-body{
+  font-size:14.5px;
+  line-height:1.55;
+  color:#3d3b34;
+}
+.banner-body p{margin:0 0 10px;}
+.banner-body p:last-child{margin-bottom:0;}
+.banner-hint{
+  font-size:13.5px;
+  color:var(--muted);
+  margin-top:6px;
+}
+.banner-actions{margin-top:16px;}
+.btn-banner-whatsapp{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#25D366;
+  color:#112014;
+  font-weight:700;
+  text-decoration:none;
+  padding:12px 20px;
+  border-radius:999px;
+  font-size:14px;
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+.btn-banner-whatsapp:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 18px rgba(37,211,102,.3);
+}
+
+.checkout-section{margin-top:4px;}
+.booking-summary-card{
+  background:rgba(244,239,229,0.06);
+  border:1px solid rgba(244,239,229,0.14);
+  border-radius:20px;
+  padding:20px 22px;
+  margin:18px 0 22px;
+}
+.summary-dates-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  padding-bottom:16px;
+  border-bottom:1px solid rgba(244,239,229,0.12);
+}
+.summary-col{display:flex;flex-direction:column;gap:4px;text-align:left;}
+.summary-label{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:var(--amber);
+  font-weight:700;
+}
+.summary-val{
+  font-size:15px;
+  color:var(--paper);
+  font-weight:600;
+  line-height:1.3;
+}
+.summary-pricing{
+  padding-top:14px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.pricing-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:14px;
+  color:#c9c4bb;
+}
+.pricing-total-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  font-size:15px;
+  color:var(--paper);
+  padding-top:4px;
+}
+.pricing-total{
+  font-family:'Bodoni Moda',Georgia,serif;
+  font-size:26px;
+  color:var(--amber);
+  font-weight:700;
+}
+.apartado-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:rgba(197,139,69,0.16);
+  border:1px solid rgba(197,139,69,0.35);
+  color:var(--amber);
+  padding:6px 14px;
+  border-radius:999px;
+  font-size:12.5px;
+  font-weight:600;
+  margin-top:14px;
+}
+.apartado-pill svg{flex:0 0 auto;}
+.booking-form{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.form-group{
+  display:flex;
+  flex-direction:column;
+  text-align:left;
+}
+.form-label{
+  font-size:13.5px;
+  font-weight:600;
+  color:#e5e0d5;
+  margin-bottom:6px;
+}
+.form-label .req,.consent-label .req{color:var(--amber);}
+.form-input{
+  width:100%;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(244,239,229,0.22);
+  border-radius:12px;
+  padding:13px 16px;
+  font-size:16px;
+  color:var(--paper);
+  font-family:inherit;
+  transition:border-color .15s ease,background-color .15s ease,box-shadow .15s ease;
+}
+.form-input::placeholder{color:#8a857b;}
+.form-input:focus{
+  outline:2px solid var(--amber);
+  outline-offset:1px;
+  border-color:var(--amber);
+  background:rgba(255,255,255,0.09);
+}
+.form-hint{
+  font-size:12px;
+  color:#a8a294;
+  margin-top:5px;
+  line-height:1.4;
+}
+.form-consent{
+  flex-direction:row;
+  align-items:flex-start;
+  gap:12px;
+  margin-top:4px;
+}
+.form-checkbox{
+  width:20px;
+  height:20px;
+  margin-top:2px;
+  accent-color:var(--amber);
+  cursor:pointer;
+  flex:0 0 auto;
+}
+.consent-label{
+  font-size:13px;
+  line-height:1.45;
+  color:#c9c4bb;
+  cursor:pointer;
+  text-align:left;
+}
+.consent-policy-link{
+  color:var(--amber);
+  text-decoration:underline;
+  text-underline-offset:2px;
+  font-weight:600;
+}
+.consent-policy-link:hover{
+  color:#dca358;
+}
+.consent-policy-link:focus-visible{
+  outline:2px solid var(--amber);
+  outline-offset:2px;
+  border-radius:2px;
+}
+.aviso-prudente{
+  background:rgba(197,139,69,0.1);
+  border-left:3px solid var(--amber);
+  border-radius:10px;
+  padding:12px 14px;
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  text-align:left;
+}
+.aviso-icon{
+  flex:0 0 auto;
+  color:var(--amber);
+  margin-top:1px;
+}
+.aviso-prudente p{
+  margin:0;
+  font-size:12.5px;
+  line-height:1.5;
+  color:#d8d4ca;
+}
+.aviso-prudente strong{color:var(--paper);}
+.form-alert{
+  background:rgba(220,53,69,0.16);
+  border:1px solid rgba(220,53,69,0.45);
+  color:#ffb8be;
+  border-radius:12px;
+  padding:12px 16px;
+  font-size:13.5px;
+  line-height:1.45;
+  text-align:left;
+}
+.btn-checkout{
+  width:100%;
+  background:var(--amber);
+  color:#171714;
+  border:none;
+  border-radius:999px;
+  padding:16px 20px;
+  font-size:16px;
+  font-weight:700;
+  font-family:inherit;
+  cursor:pointer;
+  transition:transform .15s ease,background-color .15s ease,box-shadow .15s ease;
+  margin-top:4px;
+}
+.btn-checkout:hover:not(:disabled){
+  background:#dca358;
+  transform:translateY(-2px);
+  box-shadow:0 10px 24px rgba(197,139,69,.3);
+}
+.btn-checkout:active:not(:disabled){transform:translateY(0);}
+.btn-checkout:disabled{opacity:.65;cursor:not-allowed;}
+.checkout-footer-links{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  margin-top:14px;
+  font-size:13px;
+  color:#928a7b;
+}
+.btn-subtle{
+  background:none;
+  border:none;
+  color:#c9c4bb;
+  font-size:13px;
+  font-family:inherit;
+  cursor:pointer;
+  padding:4px 6px;
+  text-decoration:underline;
+  transition:color .15s ease;
+}
+.btn-subtle:hover{color:var(--amber);}
+.footer-sep{color:rgba(244,239,229,0.3);}
+
+@media(max-width:600px){
+  .summary-dates-grid{grid-template-columns:1fr;gap:10px;}
+  .pricing-total{font-size:22px;}
+  .btn-checkout{font-size:15px;padding:15px 16px;}
+  .payment-return-banner{width:calc(100% - 20px);padding:20px 18px;border-radius:20px;}
+}
+
+@media(prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.01ms !important;
+    scroll-behavior:auto !important;
+  }
+}
 </style>
 </head>
 <body>
@@ -497,6 +807,7 @@ h1{
   </div>
 </header>
 
+<div id="paymentReturnNotice" class="payment-return-banner" role="status" aria-live="polite" style="display:none;"></div>
 
 <div class="card" id="capture">
   <div class="hero">
@@ -531,16 +842,89 @@ h1{
   <div class="footer">A 15 minutos de Toluca · disponibilidad en vivo</div>
 </div>
 
-<div class="action-card">
-  <div class="action-copy">
+<div class="action-card" id="actionCard">
+  <div class="action-copy" id="actionDefaultCopy">
     <div class="eyebrow-action">¿Ya viste una fecha?</div>
     <h2>Pónganse de acuerdo y escápense.</h2>
-    <p>Comparte este calendario con quien viene contigo o envíanos tus fechas por WhatsApp.</p>
+    <p>Toca una fecha de entrada y luego una de salida en el calendario para apartar tu estancia en línea, o comparte el calendario con quien viene contigo.</p>
   </div>
-  <div class="actions">
+  <div class="actions" id="actionDefaultButtons">
     <button id="btnWhatsapp">Reservar por WhatsApp</button>
     <button id="btnDescargar">Compartir calendario</button>
   </div>
+
+  <div id="checkoutSection" class="checkout-section" style="display:none;" aria-live="polite">
+    <div class="action-copy">
+      <div class="eyebrow-action">Reserva directa</div>
+      <h2>Aparta tu estancia</h2>
+      <p>Completa tus datos para apartar tus fechas de forma segura mediante Mercado Pago.</p>
+    </div>
+
+    <div class="booking-summary-card">
+      <div class="summary-dates-grid">
+        <div class="summary-col">
+          <span class="summary-label">Entrada</span>
+          <strong id="resumenEntrada" class="summary-val">—</strong>
+        </div>
+        <div class="summary-col">
+          <span class="summary-label">Salida</span>
+          <strong id="resumenSalida" class="summary-val">—</strong>
+        </div>
+      </div>
+      <div class="summary-pricing">
+        <div class="pricing-row">
+          <span id="resumenNoches">0 noches × $750 MXN</span>
+          <span>Pago completo</span>
+        </div>
+        <div class="pricing-total-row">
+          <span>Total calculado:</span>
+          <strong id="resumenTotal" class="pricing-total">$0 MXN</strong>
+        </div>
+      </div>
+      <div class="apartado-pill">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>15 minutos de apartado al iniciar el pago</span>
+      </div>
+    </div>
+
+    <form id="formReserva" class="booking-form" novalidate>
+      <div class="form-group">
+        <label for="reservaNombre" class="form-label">Nombre completo <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="reservaNombre" name="nombre" class="form-input" placeholder="Tu nombre y apellido" required autocomplete="name" aria-required="true">
+      </div>
+
+      <div class="form-group">
+        <label for="reservaTelefono" class="form-label">Número de WhatsApp <span class="req" aria-hidden="true">*</span></label>
+        <input type="tel" id="reservaTelefono" name="telefono" class="form-input" placeholder="Ej. 722 123 4567" required autocomplete="tel" inputmode="tel" aria-required="true">
+        <span class="form-hint">Recibirás un primer mensaje preguntando si podemos escribirte; al responderlo te enviaremos tu confirmación oficial y número de reserva.</span>
+      </div>
+
+      <div class="form-group form-consent">
+        <input type="checkbox" id="aceptaWhatsapp" name="acepta_whatsapp" class="form-checkbox" required aria-required="true">
+        <label for="aceptaWhatsapp" class="consent-label">
+          Acepto recibir mensajes por WhatsApp sobre el estado y confirmación de esta reserva, de acuerdo con la <a href="privacidad.html" target="_blank" rel="noopener" class="consent-policy-link" onclick="event.stopPropagation()">política de privacidad</a> y las <a href="condiciones.html" target="_blank" rel="noopener" class="consent-policy-link" onclick="event.stopPropagation()">condiciones del servicio</a>. <span class="req" aria-hidden="true">*</span>
+        </label>
+      </div>
+
+      <div class="aviso-prudente">
+        <svg class="aviso-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <p><strong>Nota importante:</strong> El pago recibido no equivale a confirmación inmediata. Tras validarse el pago íntegro y el bloqueo de fechas en el sistema, recibirás un primer WhatsApp para abrir contacto; en cuanto respondas, se enviará tu confirmación oficial con número de reserva.</p>
+      </div>
+
+      <div id="reservaError" class="form-alert" role="alert" aria-live="polite" style="display:none;"></div>
+
+      <button type="submit" id="btnPagar" class="btn-checkout">
+        <span id="btnPagarTexto">Apartar y pagar con Mercado Pago</span>
+      </button>
+
+      <div class="checkout-footer-links">
+        <button type="button" id="btnCambiarFechas" class="btn-subtle">← Cambiar fechas</button>
+        <span class="footer-sep">·</span>
+        <button type="button" id="btnWhatsappCheckout" class="btn-subtle">Reservar por WhatsApp</button>
+      </div>
+    </form>
+  </div>
+
   <a class="back-link" href="index.html">← Volver a Glamping Ojo de Agua</a>
   <!-- CALENDARIO V3 · 2026-09-10 -->
 </div>
@@ -608,17 +992,55 @@ function fechaBonita(dateStr){
   });
 }
 
+function actualizarEstadoCheckout(){
+  const defaultCopy = document.getElementById('actionDefaultCopy');
+  const defaultButtons = document.getElementById('actionDefaultButtons');
+  const checkoutSection = document.getElementById('checkoutSection');
+
+  if(!defaultCopy || !defaultButtons || !checkoutSection) return;
+
+  if(fechaEntrada && fechaSalida){
+    const noches = Math.round(
+      (parseLocalDate(fechaSalida) - parseLocalDate(fechaEntrada)) / 86400000
+    );
+    const PRECIO_NOCHE = 750;
+    const total = noches * PRECIO_NOCHE;
+
+    const elEntrada = document.getElementById('resumenEntrada');
+    const elSalida = document.getElementById('resumenSalida');
+    const elNoches = document.getElementById('resumenNoches');
+    const elTotal = document.getElementById('resumenTotal');
+    const elBtnTexto = document.getElementById('btnPagarTexto');
+
+    if(elEntrada) elEntrada.textContent = fechaBonita(fechaEntrada);
+    if(elSalida) elSalida.textContent = fechaBonita(fechaSalida);
+    if(elNoches) elNoches.textContent = noches + (noches === 1 ? ' noche × $750 MXN' : ' noches × $750 MXN');
+    if(elTotal) elTotal.textContent = '$' + total.toLocaleString('es-MX') + ' MXN';
+    if(elBtnTexto) elBtnTexto.textContent = 'Apartar y pagar con Mercado Pago · $' + total.toLocaleString('es-MX') + ' MXN';
+
+    defaultCopy.style.display = 'none';
+    defaultButtons.style.display = 'none';
+    checkoutSection.style.display = 'block';
+  } else {
+    checkoutSection.style.display = 'none';
+    defaultCopy.style.display = 'block';
+    defaultButtons.style.display = 'flex';
+  }
+}
+
 function actualizarResumenSeleccion(){
   const el = document.getElementById('selectionSummary');
   if(!el) return;
 
   if(!fechaEntrada){
     el.textContent = 'Selecciona tus fechas de estancia.';
+    actualizarEstadoCheckout();
     return;
   }
 
   if(!fechaSalida){
     el.textContent = 'Entrada: ' + fechaBonita(fechaEntrada) + ' · ahora elige la salida.';
+    actualizarEstadoCheckout();
     return;
   }
 
@@ -630,6 +1052,8 @@ function actualizarResumenSeleccion(){
     'Entrada: ' + fechaBonita(fechaEntrada) +
     ' · Salida: ' + fechaBonita(fechaSalida) +
     ' · ' + noches + (noches === 1 ? ' noche' : ' noches');
+
+  actualizarEstadoCheckout();
 }
 
 function hayOcupadoEntre(entradaStr, salidaStr){
@@ -686,6 +1110,13 @@ function seleccionarFecha(dateStr, isOcupado, isPast){
   fechaSalida = dateStr;
   actualizarResumenSeleccion();
   dibujarGrid(viewYear, viewMonth, ocupadosGlobal);
+
+  setTimeout(()=>{
+    const checkoutEl = document.getElementById('checkoutSection');
+    if(checkoutEl && checkoutEl.style.display !== 'none'){
+      checkoutEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, 120);
 }
 
 function cargarDisponibilidad(){
@@ -913,7 +1344,200 @@ document.getElementById('btnDescargar').addEventListener('click', async ()=>{
   }
 });
 
+function verificarRetornoPago(){
+  const params = new URLSearchParams(window.location.search);
+  const hasPaymentParams = params.has('payment_id') || params.has('collection_id') ||
+                           params.has('collection_status') || params.has('preference_id') ||
+                           params.has('status');
+
+  if(!hasPaymentParams) return;
+
+  const banner = document.getElementById('paymentReturnNotice');
+  if(!banner) return;
+
+  const status = (params.get('status') || params.get('collection_status') || '').toLowerCase();
+
+  banner.className = 'payment-return-banner';
+  if(status === 'rejected' || status === 'failure' || status === 'cancelled'){
+    banner.innerHTML =
+      '<div class="banner-badge badge-warning">Pago no completado</div>' +
+      '<h2 class="banner-title">El proceso de pago no fue completado</h2>' +
+      '<div class="banner-body">' +
+        '<p>El proveedor de pagos no procesó la transacción y no se realizó ningún cargo ni apartado.</p>' +
+        '<p>Puedes intentar nuevamente seleccionando tus fechas en el calendario o contactarnos directamente por WhatsApp para coordinar tu estancia.</p>' +
+      '</div>' +
+      '<div class="banner-actions">' +
+        '<a href="https://wa.me/525653967952?text=Hola%2C%20tuve%20un%20problema%20al%20intentar%20pagar%20en%20l%C3%ADnea%20para%20Glamping%20Ojo%20de%20Agua." class="btn-banner-whatsapp" target="_blank" rel="noopener">' +
+          'Escribir por WhatsApp' +
+        '</a>' +
+      '</div>';
+  } else if(status === 'pending' || status === 'in_process'){
+    banner.innerHTML =
+      '<div class="banner-badge badge-pending">Pago en revisión</div>' +
+      '<h2 class="banner-title">Tu pago está pendiente de acreditación</h2>' +
+      '<div class="banner-body">' +
+        '<p>Mercado Pago reporta tu pago como pendiente o en proceso de acreditación. <strong>Ten en cuenta que el regreso desde la pasarela nunca significa reserva confirmada.</strong></p>' +
+        '<p>En cuanto el pago quede aprobado y se verifique el bloqueo en Calendar, te llegará un primer WhatsApp preguntando si podemos escribirte; <strong>al responderlo, recibirás tu confirmación y número de reserva</strong>.</p>' +
+        '<p class="banner-hint">Si elegiste pago en efectivo o transferencia y deseas compartir tu comprobante:</p>' +
+      '</div>' +
+      '<div class="banner-actions">' +
+        '<a href="https://wa.me/525653967952?text=Hola%2C%20mi%20pago%20en%20l%C3%ADnea%20para%20Glamping%20Ojo%20de%20Agua%20figura%20pendiente%20de%20acreditaci%C3%B3n." class="btn-banner-whatsapp" target="_blank" rel="noopener">' +
+          'Consultar por WhatsApp' +
+        '</a>' +
+      '</div>';
+  } else {
+    // Aprobado o retorno estándar: SIEMPRE TEXTO PRUDENTE. NUNCA "reserva confirmada".
+    banner.innerHTML =
+      '<div class="banner-badge">Pago registrado en validación</div>' +
+      '<h2 class="banner-title">Hemos registrado tu proceso de pago</h2>' +
+      '<div class="banner-body">' +
+        '<p>El proveedor de pagos nos ha devuelto a esta página. <strong>Ten en cuenta que el regreso desde Mercado Pago nunca significa reserva confirmada de forma inmediata.</strong></p>' +
+        '<p>El backend está validando la acreditación del pago y el bloqueo verificado en Calendar. Recibirás un primer mensaje por WhatsApp preguntando si podemos escribirte; <strong>en cuanto nos respondas, te enviaremos tu confirmación oficial con el número de reserva e instrucciones de llegada</strong>.</p>' +
+        '<p class="banner-hint">Si deseas dar seguimiento directo o tienes alguna duda:</p>' +
+      '</div>' +
+      '<div class="banner-actions">' +
+        '<a href="https://wa.me/525653967952?text=Hola%2C%20acabo%20de%20realizar%20mi%20pago%20en%20l%C3%ADnea%20para%20Glamping%20Ojo%20de%20Agua.%20Quiero%20dar%20seguimiento%20a%20mi%20confirmaci%C3%B3n." class="btn-banner-whatsapp" target="_blank" rel="noopener">' +
+          'Contactar por WhatsApp para seguimiento' +
+        '</a>' +
+      '</div>';
+  }
+
+  banner.style.display = 'block';
+  banner.scrollIntoView({ behavior: 'smooth' });
+}
+
+function inicializarFormularioReserva(){
+  const form = document.getElementById('formReserva');
+  const btnCambiar = document.getElementById('btnCambiarFechas');
+  const btnWhatsappAlt = document.getElementById('btnWhatsappCheckout');
+
+  if(btnCambiar){
+    btnCambiar.addEventListener('click', ()=>{
+      fechaEntrada = null;
+      fechaSalida = null;
+      actualizarResumenSeleccion();
+      dibujarGrid(viewYear, viewMonth, ocupadosGlobal);
+      const cap = document.getElementById('capture');
+      if(cap) cap.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+
+  if(btnWhatsappAlt){
+    btnWhatsappAlt.addEventListener('click', ()=>{
+      const btnW = document.getElementById('btnWhatsapp');
+      if(btnW) btnW.click();
+    });
+  }
+
+  if(!form) return;
+
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+
+    const errorEl = document.getElementById('reservaError');
+    if(errorEl){
+      errorEl.style.display = 'none';
+      errorEl.textContent = '';
+    }
+
+    function mostrarError(msg){
+      if(errorEl){
+        errorEl.textContent = msg;
+        errorEl.style.display = 'block';
+        errorEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else {
+        alert(msg);
+      }
+    }
+
+    if(!fechaEntrada || !fechaSalida){
+      mostrarError('Por favor selecciona tus fechas de entrada y salida en el calendario.');
+      return;
+    }
+
+    const nombreInput = document.getElementById('reservaNombre');
+    const telefonoInput = document.getElementById('reservaTelefono');
+    const aceptaWhatsappInput = document.getElementById('aceptaWhatsapp');
+
+    const nombreVal = nombreInput ? nombreInput.value.trim() : '';
+    const telefonoVal = telefonoInput ? telefonoInput.value.trim() : '';
+
+    if(!nombreVal || nombreVal.length < 2){
+      mostrarError('Por favor escribe tu nombre completo.');
+      if(nombreInput) nombreInput.focus();
+      return;
+    }
+
+    const digitsOnly = telefonoVal.replace(/\D/g, '');
+    if(digitsOnly.length < 10){
+      mostrarError('Por favor ingresa un número de WhatsApp válido (al menos 10 dígitos).');
+      if(telefonoInput) telefonoInput.focus();
+      return;
+    }
+
+    if(!aceptaWhatsappInput || !aceptaWhatsappInput.checked){
+      mostrarError('Es necesario aceptar recibir mensajes por WhatsApp sobre esta reserva para continuar.');
+      if(aceptaWhatsappInput) aceptaWhatsappInput.focus();
+      return;
+    }
+
+    const btnPagar = document.getElementById('btnPagar');
+    const btnPagarTexto = document.getElementById('btnPagarTexto');
+    const textoOriginal = btnPagarTexto ? btnPagarTexto.textContent : 'Apartar y pagar con Mercado Pago';
+
+    if(btnPagar) btnPagar.disabled = true;
+    if(btnPagarTexto) btnPagarTexto.textContent = 'Apartando fechas y generando enlace de pago…';
+
+    try {
+      const payload = {
+        llegada: fechaEntrada,
+        salida: fechaSalida,
+        nombre: nombreVal,
+        telefono: telefonoVal,
+        acepta_whatsapp: true
+      };
+
+      // Contrato: POST JSON a https://webhook.glampingojodeagua.mx/api/reservas/iniciar
+      // NO loguear cuerpo/PII por privacidad y seguridad
+      const response = await fetch('https://webhook.glampingojodeagua.mx/api/reservas/iniciar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if(response.status === 201){
+        const data = await response.json();
+        if(data && data.url_pago){
+          if(btnPagarTexto) btnPagarTexto.textContent = 'Enlace listo. Redirigiendo a Mercado Pago…';
+          window.location.href = data.url_pago;
+          return;
+        } else {
+          mostrarError('No se recibió el enlace de pago. Por favor intenta de nuevo o escríbenos por WhatsApp.');
+        }
+      } else if(response.status === 409){
+        mostrarError('Las fechas seleccionadas ya no están disponibles. Por favor elige otras fechas en el calendario.');
+        cargarDisponibilidad();
+      } else if(response.status === 422){
+        mostrarError('Los datos de la reserva requieren revisión. Por favor verifica las fechas y tu número de teléfono o contáctanos por WhatsApp.');
+      } else if(response.status === 503){
+        mostrarError('El servicio de cobro no está disponible temporalmente. Puedes reservar directamente por WhatsApp.');
+      } else {
+        mostrarError('Ocurrió un error al procesar tu solicitud. Por favor intenta de nuevo o contáctanos por WhatsApp.');
+      }
+    } catch(err){
+      mostrarError('No fue posible conectar con el servicio de reserva. Revisa tu conexión a internet o contáctanos por WhatsApp.');
+    } finally {
+      if(btnPagar) btnPagar.disabled = false;
+      if(btnPagarTexto) btnPagarTexto.textContent = textoOriginal;
+    }
+  });
+}
+
 window.addEventListener('load', ()=>{
+  verificarRetornoPago();
+  inicializarFormularioReserva();
   dibujarGrid(viewYear, viewMonth, ocupadosGlobal);
   cargarDisponibilidad();
 });
@@ -925,6 +1549,13 @@ document.addEventListener('DOMContentLoaded', function () {
     if (typeof gtag === 'function') {
       gtag('event', eventName, params || {});
     }
+  }
+
+  const formReserva = document.getElementById('formReserva');
+  if (formReserva) {
+    formReserva.addEventListener('submit', function () {
+      track('checkout_submit', {page_section: 'calendar_checkout'});
+    });
   }
 
   const whatsappBtn = document.getElementById('btnWhatsapp');

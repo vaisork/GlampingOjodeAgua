@@ -557,6 +557,10 @@ h1{
 }
 
 .checkout-section{margin-top:4px;}
+.reservation-options{display:grid;gap:12px;max-width:520px;margin:20px auto 0;}
+.reservation-options button{width:100%;border-radius:999px;padding:15px 18px;font-size:16px;font-weight:700;cursor:pointer;}
+#btnWhatsappCheckout{background:#25D366;color:#112014;border:0;}
+#btnApartarOnline{background:var(--amber);color:#171714;border:0;}
 .booking-summary-card{
   background:rgba(244,239,229,0.06);
   border:1px solid rgba(244,239,229,0.14);
@@ -846,7 +850,7 @@ h1{
   <div class="action-copy" id="actionDefaultCopy">
     <div class="eyebrow-action">¿Ya viste una fecha?</div>
     <h2>Pónganse de acuerdo y escápense.</h2>
-    <p>Toca una fecha de entrada y luego una de salida en el calendario para apartar tu estancia en línea, o comparte el calendario con quien viene contigo.</p>
+    <p>Elige tus fechas y reserva por WhatsApp o aparta en línea con Mercado Pago. También puedes compartir el calendario.</p>
   </div>
   <div class="actions" id="actionDefaultButtons">
     <button id="btnWhatsapp">Reservar por WhatsApp</button>
@@ -856,8 +860,8 @@ h1{
   <div id="checkoutSection" class="checkout-section" style="display:none;" aria-live="polite">
     <div class="action-copy">
       <div class="eyebrow-action">Reserva directa</div>
-      <h2>Aparta tu estancia</h2>
-      <p>Completa tus datos para apartar tus fechas de forma segura mediante Mercado Pago.</p>
+      <h2>Elige cómo reservar</h2>
+      <p>Reserva por WhatsApp o aparta en línea con Mercado Pago. Para pagar en línea, completa tus datos.</p>
     </div>
 
     <div class="booking-summary-card">
@@ -887,7 +891,12 @@ h1{
       </div>
     </div>
 
-    <form id="formReserva" class="booking-form" novalidate>
+    <div class="reservation-options" id="reservationOptions">
+      <button type="button" id="btnWhatsappCheckout">Reservar por WhatsApp</button>
+      <button type="button" id="btnApartarOnline">Apartar en línea con Mercado Pago</button>
+    </div>
+
+    <form id="formReserva" class="booking-form" novalidate style="display:none;">
       <div class="form-group">
         <label for="reservaNombre" class="form-label">Nombre completo <span class="req" aria-hidden="true">*</span></label>
         <input type="text" id="reservaNombre" name="nombre" class="form-input" placeholder="Tu nombre y apellido" required autocomplete="name" aria-required="true">
@@ -919,8 +928,6 @@ h1{
 
       <div class="checkout-footer-links">
         <button type="button" id="btnCambiarFechas" class="btn-subtle">← Cambiar fechas</button>
-        <span class="footer-sep">·</span>
-        <button type="button" id="btnWhatsappCheckout" class="btn-subtle">Reservar por WhatsApp</button>
       </div>
     </form>
   </div>
@@ -1021,6 +1028,7 @@ function actualizarEstadoCheckout(){
     defaultCopy.style.display = 'none';
     defaultButtons.style.display = 'none';
     checkoutSection.style.display = 'block';
+    document.getElementById('formReserva').style.display = 'none';
   } else {
     checkoutSection.style.display = 'none';
     defaultCopy.style.display = 'block';
@@ -1110,13 +1118,6 @@ function seleccionarFecha(dateStr, isOcupado, isPast){
   fechaSalida = dateStr;
   actualizarResumenSeleccion();
   dibujarGrid(viewYear, viewMonth, ocupadosGlobal);
-
-  setTimeout(()=>{
-    const checkoutEl = document.getElementById('checkoutSection');
-    if(checkoutEl && checkoutEl.style.display !== 'none'){
-      checkoutEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-  }, 120);
 }
 
 function cargarDisponibilidad(){
@@ -1269,25 +1270,27 @@ document.getElementById('nextBtn').addEventListener('click', ()=>{
   dibujarGrid(viewYear, viewMonth, ocupadosGlobal);
 });
 
-document.getElementById('btnWhatsapp').addEventListener('click', ()=>{
-  if(!fechaEntrada || !fechaSalida){
-    alert('Primero selecciona tu fecha de entrada y tu fecha de salida en el calendario.');
-    return;
+function abrirWhatsApp(){
+  let mensaje = 'Hola, vi la disponibilidad de Glamping Ojo de Agua y quiero solicitar una reserva.';
+  if(fechaEntrada) mensaje += '\n\nEntrada: ' + fechaBonita(fechaEntrada);
+  if(fechaSalida){
+    const noches = Math.round(
+      (parseLocalDate(fechaSalida) - parseLocalDate(fechaEntrada)) / 86400000
+    );
+    mensaje += '\nSalida: ' + fechaBonita(fechaSalida) +
+      '\nEstancia: ' + noches + (noches === 1 ? ' noche' : ' noches');
   }
+  mensaje += '\n\n¿Me pueden confirmar disponibilidad y precio?';
+  window.open('https://wa.me/525653967952?text=' + encodeURIComponent(mensaje), '_blank');
+}
 
-  const noches = Math.round(
-    (parseLocalDate(fechaSalida) - parseLocalDate(fechaEntrada)) / 86400000
-  );
-
-  const mensaje =
-    'Hola, vi la disponibilidad de Glamping Ojo de Agua y quiero solicitar una reserva.\n\n' +
-    'Entrada: ' + fechaBonita(fechaEntrada) + '\n' +
-    'Salida: ' + fechaBonita(fechaSalida) + '\n' +
-    'Estancia: ' + noches + (noches === 1 ? ' noche' : ' noches') + '\n\n' +
-    '¿Me pueden confirmar disponibilidad y precio?';
-
-  const texto = encodeURIComponent(mensaje);
-  window.open('https://wa.me/525653967952?text=' + texto, '_blank');
+document.getElementById('btnWhatsapp').addEventListener('click', abrirWhatsApp);
+document.getElementById('btnWhatsappCheckout').addEventListener('click', abrirWhatsApp);
+document.getElementById('btnApartarOnline').addEventListener('click', ()=>{
+  const form = document.getElementById('formReserva');
+  form.style.display = 'flex';
+  document.getElementById('reservaNombre').focus({ preventScroll:true });
+  form.scrollIntoView({ behavior:'smooth', block:'start' });
 });
 
 let html2canvasListo = null;
@@ -1409,7 +1412,6 @@ function verificarRetornoPago(){
 function inicializarFormularioReserva(){
   const form = document.getElementById('formReserva');
   const btnCambiar = document.getElementById('btnCambiarFechas');
-  const btnWhatsappAlt = document.getElementById('btnWhatsappCheckout');
 
   if(btnCambiar){
     btnCambiar.addEventListener('click', ()=>{
@@ -1419,13 +1421,6 @@ function inicializarFormularioReserva(){
       dibujarGrid(viewYear, viewMonth, ocupadosGlobal);
       const cap = document.getElementById('capture');
       if(cap) cap.scrollIntoView({ behavior: 'smooth' });
-    });
-  }
-
-  if(btnWhatsappAlt){
-    btnWhatsappAlt.addEventListener('click', ()=>{
-      const btnW = document.getElementById('btnWhatsapp');
-      if(btnW) btnW.click();
     });
   }
 
@@ -1559,11 +1554,12 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   const whatsappBtn = document.getElementById('btnWhatsapp');
-  if (whatsappBtn) {
-    whatsappBtn.addEventListener('click', function () {
+  const whatsappCheckoutBtn = document.getElementById('btnWhatsappCheckout');
+  [whatsappBtn, whatsappCheckoutBtn].forEach(function (button) {
+    if (button) button.addEventListener('click', function () {
       track('click_whatsapp', {page_section: 'calendar', action: 'reservation_request'});
     });
-  }
+  });
 
   const shareBtn = document.getElementById('btnDescargar');
   if (shareBtn) {

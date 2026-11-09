@@ -80,16 +80,15 @@ function doGet(e) {
 
       for (const evento of eventos) {
 
-        // Las reservas deben ser de día completo.
-        if (!evento.isAllDayEvent()) {
-          throw new Error(
-            'Evento sin formato de día completo en: ' +
-            nombre
-          );
-        }
-
-        const inicio = evento.getAllDayStartDate();
-        const fin = evento.getAllDayEndDate();
+        // Día completo o con hora: un bloqueo con hora ocupa la noche
+        // de su día de inicio (y las siguientes si dura varios días).
+        const todoElDia = evento.isAllDayEvent();
+        const inicio = todoElDia
+          ? evento.getAllDayStartDate()
+          : evento.getStartTime();
+        const fin = todoElDia
+          ? evento.getAllDayEndDate()
+          : evento.getEndTime();
 
         let dia = new Date(
           inicio.getFullYear(),
@@ -106,9 +105,14 @@ function doGet(e) {
         );
 
         if (dia >= salida) {
-          throw new Error(
-            'Rango de fechas inválido en: ' + nombre
-          );
+          if (todoElDia) {
+            throw new Error(
+              'Rango de fechas inválido en: ' + nombre
+            );
+          }
+          // Evento con hora dentro del mismo día: ocupa esa noche.
+          salida.setTime(dia.getTime());
+          salida.setDate(salida.getDate() + 1);
         }
 
         // Entrada incluida, salida excluida.

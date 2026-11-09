@@ -42,3 +42,7 @@ El script combina Airbnb y reservas directas y sólo expone fechas ocupadas, nun
 Las reservas se interpretan como noches: fecha de entrada incluida y fecha de salida excluida. Por ejemplo, una reserva del 8 al 9 bloquea el día 8 y permite usar el 9 como salida o nueva entrada.
 
 La página pública consume el endpoint mediante JSONP usando el parámetro `callback`.
+
+## Airbnb en tiempo real (09/11/2026)
+
+Google refresca el calendario importado de Airbnb cada 8 a 24 horas. Por eso el script también lee directo el iCal de exportación de Airbnb (`leerIcalAirbnb`). Configuración única en Apps Script: Configuración del proyecto → Propiedades del script → agregar `AIRBNB_ICAL_URL` con el enlace de Airbnb (Anuncio → Disponibilidad → Sincronizar calendarios → Exportar calendario). El enlace no va en el código. Si la lectura falla, se usa la copia importada como antes.

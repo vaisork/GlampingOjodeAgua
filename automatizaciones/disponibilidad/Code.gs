@@ -1,18 +1,48 @@
-const CALENDARIOS = [
-  // Reservas directas
-  'f6e1c1451f312d568b13280a247a92be0ab4701a3e73d4365eb2c6df4bf3f655@group.calendar.google.com',
+/*
+ * GLAMPING OJO DE AGUA
+ * Disponibilidad: Airbnb + Reservas Directas
+ *
+ * Mantiene el contrato:
+ *   ok, ocupados, actualizado
+ *
+ * Agrega:
+ *   fuentes.directas
+ *   fuentes.airbnb       (copia importada en Google, tarda 8-24 h)
+ *   fuentes.airbnb_ical  (enlace iCal de Airbnb, en minutos)
+ *
+ * Configuración: Propiedades del script → AIRBNB_ICAL_URL
+ * (enlace de exportación de Airbnb; no va en el código).
+ */
 
-  // Airbnb Ojo de Agua
-  'gllnddlh1l77v85uc0cl91tbhonahu50@import.calendar.google.com'
-];
+const CALENDARIOS = {
+  directas:
+    'f6e1c1451f312d568b13280a247a92be0ab4701a3e73d4365eb2c6df4bf3f655@group.calendar.google.com',
+
+  airbnb:
+    'gllnddlh1l77v85uc0cl91tbhonahu50@import.calendar.google.com'
+};
 
 function doGet(e) {
-  try {
-    const callback = e && e.parameter ? e.parameter.callback : '';
+  const callback = e && e.parameter
+    ? e.parameter.callback || ''
+    : '';
 
+  // Solo permitir nombres válidos de callback JSONP.
+  if (
+    callback &&
+    !/^[A-Za-z_$][\w$]*(\.[A-Za-z_$][\w$]*)*$/.test(callback)
+  ) {
+    return responder({
+      ok: false,
+      ocupados: [],
+      actualizado: new Date().toISOString(),
+      error: 'Callback JSONP inválido'
+    }, '');
+  }
+
+  try {
     const hoy = new Date();
 
-    // Consultamos desde 90 días atrás hasta 2 años adelante.
     const desde = new Date(
       hoy.getFullYear(),
       hoy.getMonth(),
@@ -28,27 +58,37 @@ function doGet(e) {
     );
 
     const ocupados = new Set();
+    const fuentes = {};
 
-    CALENDARIOS.forEach(calendarId => {
-      const calendario = CalendarApp.getCalendarById(calendarId);
+    // Consultar ambas fuentes de Google Calendar.
+    for (const [nombre, calendarId] of
+      Object.entries(CALENDARIOS)) {
+
+      const calendario =
+        CalendarApp.getCalendarById(calendarId);
 
       if (!calendario) {
-        throw new Error('No se pudo acceder al calendario: ' + calendarId);
+        throw new Error(
+          'No se pudo acceder a la fuente: ' + nombre
+        );
       }
 
-      const eventos = calendario.getEvents(desde, hasta);
+      const eventos =
+        calendario.getEvents(desde, hasta);
 
-      eventos.forEach(evento => {
-        let inicio;
-        let fin;
+      const nochesFuente = new Set();
 
-        if (evento.isAllDayEvent()) {
-          inicio = evento.getAllDayStartDate();
-          fin = evento.getAllDayEndDate();
-        } else {
-          inicio = evento.getStartTime();
-          fin = evento.getEndTime();
-        }
+      for (const evento of eventos) {
+
+        // Día completo o con hora: un bloqueo con hora ocupa la noche
+        // de su día de inicio (y las siguientes si dura varios días).
+        const todoElDia = evento.isAllDayEvent();
+        const inicio = todoElDia
+          ? evento.getAllDayStartDate()
+          : evento.getStartTime();
+        const fin = todoElDia
+          ? evento.getAllDayEndDate()
+          : evento.getEndTime();
 
         let dia = new Date(
           inicio.getFullYear(),
@@ -64,52 +104,125 @@ function doGet(e) {
           12, 0, 0
         );
 
+        if (dia >= salida) {
+          if (todoElDia) {
+            throw new Error(
+              'Rango de fechas inválido en: ' + nombre
+            );
+          }
+          // Evento con hora dentro del mismo día: ocupa esa noche.
+          salida.setTime(dia.getTime());
+          salida.setDate(salida.getDate() + 1);
+        }
+
         // Entrada incluida, salida excluida.
         while (dia < salida) {
-          ocupados.add(formatearFecha(dia));
+          const fecha = formatearFecha(dia);
+
+          nochesFuente.add(fecha);
+          ocupados.add(fecha);
+
           dia.setDate(dia.getDate() + 1);
         }
-      });
-    });
+      }
 
-    const respuesta = {
+      fuentes[nombre] = {
+        ok: true,
+        actualizado: new Date().toISOString(),
+        n: eventos.length,
+        noches_ocupadas: nochesFuente.size
+      };
+    }
+
+    // Airbnb directo: suma reservas y bloqueos recientes que la copia
+    // importada en Google todavía no tiene. Si falla, la copia de Google
+    // sigue cubriendo lo ya sincronizado.
+    const ical = leerIcalAirbnb();
+    ical.fechas.forEach(fecha => ocupados.add(fecha));
+    fuentes.airbnb_ical = {
+      ok: ical.ok,
+      actualizado: new Date().toISOString(),
+      noches_ocupadas: ical.fechas.length,
+      error: ical.error || undefined
+    };
+
+    return responder({
       ok: true,
       ocupados: Array.from(ocupados).sort(),
-      actualizado: new Date().toISOString()
-    };
-
-    const json = JSON.stringify(respuesta);
-
-    // La página pública usa JSONP.
-    if (callback) {
-      return ContentService
-        .createTextOutput(callback + '(' + json + ');')
-        .setMimeType(ContentService.MimeType.JAVASCRIPT);
-    }
-
-    return ContentService
-      .createTextOutput(json)
-      .setMimeType(ContentService.MimeType.JSON);
+      actualizado: new Date().toISOString(),
+      fuentes: fuentes
+    }, callback);
 
   } catch (error) {
-    const callback = e && e.parameter ? e.parameter.callback : '';
 
-    const respuesta = {
+    // Fallar cerrado: nunca devolver ocupación parcial
+    // como si la disponibilidad fuera confiable.
+    console.error(
+      'Error de disponibilidad: ' + String(error)
+    );
+
+    return responder({
       ok: false,
-      error: String(error)
-    };
+      ocupados: [],
+      actualizado: new Date().toISOString(),
+      error: 'No se pudo verificar toda la disponibilidad'
+    }, callback);
+  }
+}
 
-    const json = JSON.stringify(respuesta);
+function leerIcalAirbnb() {
+  const url = PropertiesService
+    .getScriptProperties()
+    .getProperty('AIRBNB_ICAL_URL');
 
-    if (callback) {
-      return ContentService
-        .createTextOutput(callback + '(' + json + ');')
-        .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  if (!url) {
+    return { ok: false, fechas: [], error: 'Falta AIRBNB_ICAL_URL' };
+  }
+
+  try {
+    const respuesta = UrlFetchApp.fetch(url, {
+      muteHttpExceptions: true,
+      followRedirects: true
+    });
+
+    if (respuesta.getResponseCode() !== 200) {
+      return {
+        ok: false,
+        fechas: [],
+        error: 'HTTP ' + respuesta.getResponseCode()
+      };
     }
 
-    return ContentService
-      .createTextOutput(json)
-      .setMimeType(ContentService.MimeType.JSON);
+    // Une líneas plegadas del formato iCal.
+    const texto = respuesta
+      .getContentText()
+      .replace(/\r?\n[ \t]/g, '');
+
+    const fechas = new Set();
+
+    texto.split('BEGIN:VEVENT').slice(1).forEach(bloque => {
+      const inicio = (bloque.match(/DTSTART[^:]*:(\d{8})/) || [])[1];
+      const fin = (bloque.match(/DTEND[^:]*:(\d{8})/) || [])[1];
+      if (!inicio || !fin) return;
+
+      const dia = new Date(
+        +inicio.slice(0, 4), +inicio.slice(4, 6) - 1, +inicio.slice(6, 8), 12
+      );
+      const salida = new Date(
+        +fin.slice(0, 4), +fin.slice(4, 6) - 1, +fin.slice(6, 8), 12
+      );
+
+      // Entrada incluida, salida excluida.
+      while (dia < salida) {
+        fechas.add(formatearFecha(dia));
+        dia.setDate(dia.getDate() + 1);
+      }
+    });
+
+    return { ok: true, fechas: Array.from(fechas) };
+
+  } catch (error) {
+    return { ok: false, fechas: [], error: String(error) };
   }
 }
 
@@ -119,4 +232,18 @@ function formatearFecha(fecha) {
     Session.getScriptTimeZone(),
     'yyyy-MM-dd'
   );
+}
+
+function responder(datos, callback) {
+  const json = JSON.stringify(datos);
+
+  if (callback) {
+    return ContentService
+      .createTextOutput(callback + '(' + json + ');')
+      .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
+
+  return ContentService
+    .createTextOutput(json)
+    .setMimeType(ContentService.MimeType.JSON);
 }
